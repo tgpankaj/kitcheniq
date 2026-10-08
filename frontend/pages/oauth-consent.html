@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Authorize — KitchenIQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="../js/theme.js"></script>
+    <link rel="stylesheet" href="../css/tokens.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 24px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+        }
+        .consent-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 480px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+<div class="consent-card">
+    <div style="text-align: center; margin-bottom: 32px;">
+        <div style="display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px;">
+            <div style="width: 40px; height: 40px; background: #2563eb; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;">
+                <i class="fa-solid fa-utensils"></i>
+            </div>
+            <div style="font-weight: 700; font-size: 18px; color: #0f172a;">KitchenIQ</div>
+        </div>
+
+        <h1 style="font-size: 22px; font-weight: 700; margin-bottom: 8px;" id="title">Authorize Connection</h1>
+        <p style="color: #64748b; font-size: 14px;" id="subtitle">Demo consent page — real OAuth will redirect to the provider's site.</p>
+    </div>
+
+    <div class="kiq-alert kiq-alert-info" style="margin-bottom: 24px;">
+        <i class="fa-solid fa-circle-info"></i>
+        <div>
+            <strong>Demo Mode</strong><br>
+            Real Swiggy/Zomato APIs require partner approval. This simulates the OAuth flow so you can test the pipeline.
+        </div>
+    </div>
+
+    <div style="margin-bottom: 24px;">
+        <div style="font-size: 13px; font-weight: 600; margin-bottom: 12px; color: #0f172a;">KitchenIQ will be able to:</div>
+        <div style="display: flex; gap: 10px; padding: 8px 0; font-size: 13px; color: #475569;">
+            <i class="fa-solid fa-check" style="color: #10b981; margin-top: 3px;"></i>
+            <span>Read your orders from this platform</span>
+        </div>
+        <div style="display: flex; gap: 10px; padding: 8px 0; font-size: 13px; color: #475569;">
+            <i class="fa-solid fa-check" style="color: #10b981; margin-top: 3px;"></i>
+            <span>Read your menu and pricing</span>
+        </div>
+        <div style="display: flex; gap: 10px; padding: 8px 0; font-size: 13px; color: #475569;">
+            <i class="fa-solid fa-check" style="color: #10b981; margin-top: 3px;"></i>
+            <span>Sync data automatically</span>
+        </div>
+        <div style="display: flex; gap: 10px; padding: 8px 0; font-size: 13px; color: #475569;">
+            <i class="fa-solid fa-xmark" style="color: #ef4444; margin-top: 3px;"></i>
+            <span>Cannot place or cancel orders</span>
+        </div>
+    </div>
+
+    <div style="display: flex; gap: 12px;">
+        <button onclick="cancel()" class="kiq-btn kiq-btn-secondary" style="flex: 1;">Cancel</button>
+        <button onclick="approve()" class="kiq-btn kiq-btn-primary" style="flex: 1;" id="approveBtn">
+            <i class="fa-solid fa-check"></i> Authorize
+        </button>
+    </div>
+
+    <div id="statusMsg" style="margin-top: 16px; text-align: center; font-size: 13px; display: none;"></div>
+</div>
+
+<script src="../js/config.js"></script>
+<script>
+const params = new URLSearchParams(window.location.search);
+const state = params.get('state');
+const platform = params.get('platform') || 'mock';
+const token = localStorage.getItem('token');
+
+if (!token) {
+    window.location.href = 'login.html';
+}
+
+if (!state) {
+    document.getElementById('statusMsg').style.display = 'block';
+    document.getElementById('statusMsg').innerHTML = '<span style="color: #ef4444;">Invalid session. Please try again from Integrations page.</span>';
+    document.getElementById('approveBtn').disabled = true;
+}
+
+document.getElementById('subtitle').textContent = `Connecting ${platform.charAt(0).toUpperCase() + platform.slice(1)}`;
+
+async function approve() {
+    const btn = document.getElementById('approveBtn');
+    const original = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="kiq-spinner"></span> Authorizing...';
+
+    try {
+        const res = await fetch(`${window.API_URL}/api/oauth/${platform}/consent`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            },
+            body: JSON.stringify({ state }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Authorization failed');
+
+        document.getElementById('statusMsg').style.display = 'block';
+        document.getElementById('statusMsg').innerHTML = '<span style="color: #10b981;">✅ Connected! Redirecting...</span>';
+
+        setTimeout(() => {
+            window.location.href = `integrations.html?oauth_success=${platform}`;
+        }, 1200);
+    } catch (e) {
+        document.getElementById('statusMsg').style.display = 'block';
+        document.getElementById('statusMsg').innerHTML = `<span style="color: #ef4444;">${e.message}</span>`;
+        btn.disabled = false;
+        btn.innerHTML = original;
+    }
+}
+
+function cancel() {
+    window.location.href = 'integrations.html';
+}
+</script>
+</body>
+</html>

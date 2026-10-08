@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings — KitchenIQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/tokens.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <!-- Theme (must be before paint to avoid flash) -->
+    <script src="../js/theme.js"></script>
+</head>
+<body>
+
+<div class="kiq-app">
+
+    <aside class="kiq-sidebar">
+        <a href="dashboard.html" class="kiq-sidebar-logo">
+            <div class="kiq-sidebar-logo-icon"><i class="fa-solid fa-utensils"></i></div>
+            <div class="kiq-sidebar-logo-text">KitchenIQ <span>Pro</span></div>
+        </a>
+
+        <a href="live.html" class="kiq-nav-link"><i class="fa-solid fa-bolt"></i><span>Live Orders</span></a>
+        <nav class="kiq-sidebar-nav">
+            <div class="kiq-nav-section">Main</div>
+            <a href="dashboard.html" class="kiq-nav-link"><i class="fa-solid fa-chart-pie"></i><span>Dashboard</span></a>
+            <a href="analytics.html" class="kiq-nav-link"><i class="fa-solid fa-chart-line"></i><span>Analytics</span></a>
+            <a href="dishes.html" class="kiq-nav-link"><i class="fa-solid fa-burger"></i><span>Dishes</span></a>
+            <a href="customers.html" class="kiq-nav-link"><i class="fa-solid fa-users"></i><span>Customers</span></a>
+            <a href="finance.html" class="kiq-nav-link"><i class="fa-solid fa-indian-rupee-sign"></i><span>Finance</span></a>
+            <a href="foodcost.html" class="kiq-nav-link"><i class="fa-solid fa-calculator"></i><span>Food Cost</span></a>
+            <a href="insights.html" class="kiq-nav-link"><i class="fa-solid fa-lightbulb"></i><span>AI Insights</span><span class="kiq-nav-badge">AI</span></a>
+            <a href="notifications.html" class="kiq-nav-link"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
+            <a href="reports.html" class="kiq-nav-link"><i class="fa-solid fa-file-lines"></i><span>Reports</span></a>
+            <div class="kiq-nav-section">Data</div>
+            <a href="integrations.html" class="kiq-nav-link"><i class="fa-solid fa-plug"></i><span>Integrations</span></a>
+            <a href="upload.html" class="kiq-nav-link"><i class="fa-solid fa-cloud-arrow-up"></i><span>Upload CSV</span></a>
+            <div class="kiq-nav-section">System</div>
+            <a href="team.html" class="kiq-nav-link"><i class="fa-solid fa-user-group"></i><span>Team</span></a>
+            <a href="activity.html" class="kiq-nav-link"><i class="fa-solid fa-clock-rotate-left"></i><span>Activity</span></a>
+
+            <a href="plans.html" class="kiq-nav-link"><i class="fa-solid fa-crown"></i><span>Plans & Billing</span></a>
+
+
+            <a href="settings.html" class="kiq-nav-link active"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+        </nav>
+        <div class="kiq-sidebar-footer">
+            <a href="#" id="logoutBtn" class="kiq-nav-link"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></a>
+        </div>
+    </aside>
+
+    <header class="kiq-topbar">
+        <div class="kiq-topbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="kiq-topbar-actions">
+            <div id="kiq-bell-container"></div>
+            <div class="kiq-topbar-user">
+                <div class="kiq-topbar-user-info">
+                    <div class="kiq-topbar-user-name" id="userName">—</div>
+                    <div class="kiq-topbar-user-role">Owner</div>
+                </div>
+                <div class="kiq-avatar" id="userAvatar">?</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="kiq-content">
+
+        <div class="kiq-page-header">
+            <div>
+                <h1 class="kiq-page-title">Settings</h1>
+                <p class="kiq-page-subtitle">Manage your account, kitchen, and security</p>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="kiq-grid kiq-grid-auto-3 kiq-mb-6">
+            <div class="kiq-kpi">
+                <div class="kiq-kpi-header">
+                    <div class="kiq-kpi-label">Total Orders</div>
+                    <div class="kiq-kpi-icon brand"><i class="fa-solid fa-receipt"></i></div>
+                </div>
+                <div class="kiq-kpi-value" id="statOrders">0</div>
+            </div>
+            <div class="kiq-kpi">
+                <div class="kiq-kpi-header">
+                    <div class="kiq-kpi-label">Unique Dishes</div>
+                    <div class="kiq-kpi-icon success"><i class="fa-solid fa-burger"></i></div>
+                </div>
+                <div class="kiq-kpi-value" id="statDishes">0</div>
+            </div>
+            <div class="kiq-kpi">
+                <div class="kiq-kpi-header">
+                    <div class="kiq-kpi-label">Customers</div>
+                    <div class="kiq-kpi-icon info"><i class="fa-solid fa-users"></i></div>
+                </div>
+                <div class="kiq-kpi-value" id="statCustomers">0</div>
+            </div>
+        </div>
+
+        <div class="kiq-grid kiq-grid-2">
+            <!-- Profile -->
+            <div class="kiq-card">
+                <div class="kiq-card-header">
+                    <div>
+                        <div class="kiq-card-title">👤 Profile</div>
+                        <div class="kiq-card-subtitle">Your account details</div>
+                    </div>
+                </div>
+                <form id="profileForm">
+                    <div class="kiq-input-group">
+                        <label class="kiq-label">Email</label>
+                        <input type="email" class="kiq-input" id="profEmail" disabled>
+                    </div>
+                    <div class="kiq-input-group">
+                        <label class="kiq-label">Full Name</label>
+                        <input type="text" class="kiq-input" id="profName" required>
+                    </div>
+                    <button type="submit" class="kiq-btn kiq-btn-primary">
+                        <i class="fa-solid fa-save"></i> Save Profile
+                    </button>
+                </form>
+            </div>
+
+            <!-- Kitchen -->
+            <div class="kiq-card">
+                <div class="kiq-card-header">
+                    <div>
+                        <div class="kiq-card-title">🏠 Kitchen</div>
+                        <div class="kiq-card-subtitle">Your restaurant details</div>
+                    </div>
+                </div>
+                <form id="kitchenForm">
+                    <div class="kiq-input-group">
+                        <label class="kiq-label">Kitchen Name</label>
+                        <input type="text" class="kiq-input" id="kitName" required>
+                    </div>
+                    <div class="kiq-input-group">
+                        <label class="kiq-label">City</label>
+                        <input type="text" class="kiq-input" id="kitCity" placeholder="Mumbai">
+                    </div>
+                    <div class="kiq-input-group">
+                        <label class="kiq-label">Address</label>
+                        <input type="text" class="kiq-input" id="kitAddress" placeholder="Street, area">
+                    </div>
+                    <div class="kiq-input-group">
+                        <label class="kiq-label">Phone</label>
+                        <input type="text" class="kiq-input" id="kitPhone" placeholder="+91...">
+                    </div>
+                    <button type="submit" class="kiq-btn kiq-btn-primary">
+                        <i class="fa-solid fa-save"></i> Save Kitchen
+                    </button>
+                </form>
+            </div>
+        </div>
+<!-- Worker Status -->
+        <div class="kiq-card kiq-mt-6" style="max-width: 600px;">
+            <div class="kiq-card-header">
+                <div>
+                    <div class="kiq-card-title">🤖 Auto-Sync Worker</div>
+                    <div class="kiq-card-subtitle">Background sync status</div>
+                </div>
+                <button class="kiq-btn kiq-btn-secondary kiq-btn-sm" id="runWorkerBtn">
+                    <i class="fa-solid fa-play"></i> Run Now
+                </button>
+            </div>
+            <div id="workerStatus" style="font-size: 14px; color: var(--kiq-text-muted);">
+                Loading...
+            </div>
+        </div>
+<!-- Appearance -->
+        <div class="kiq-card kiq-mt-6" style="max-width: 600px;">
+            <div class="kiq-card-header">
+                <div>
+                    <div class="kiq-card-title">🎨 Appearance</div>
+                    <div class="kiq-card-subtitle">Theme preference</div>
+                </div>
+            </div>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                <button class="theme-pick kiq-btn kiq-btn-secondary" data-theme="light">
+                    <i class="fa-solid fa-sun"></i> Light
+                </button>
+                <button class="theme-pick kiq-btn kiq-btn-secondary" data-theme="dark">
+                    <i class="fa-solid fa-moon"></i> Dark
+                </button>
+                <button class="theme-pick kiq-btn kiq-btn-secondary" data-theme="system">
+                    <i class="fa-solid fa-circle-half-stroke"></i> System
+                </button>
+            </div>
+        </div>
+
+
+
+        
+        <!-- Email Preferences -->
+        <div class="kiq-card kiq-mt-6" style="max-width: 600px;">
+            <div class="kiq-card-header">
+                <div>
+                    <div class="kiq-card-title">📧 Email Preferences</div>
+                    <div class="kiq-card-subtitle">Choose which emails you want to receive</div>
+                </div>
+            </div>
+            <div id="emailPrefs">
+                <p style="text-align:center; padding: 20px; color: var(--kiq-text-muted);">
+                    <i class="fa-solid fa-circle-notch fa-spin"></i> Loading...
+                </p>
+            </div>
+        </div>
+
+        <!-- Password -->
+        <div class="kiq-card kiq-mt-6" style="max-width: 600px;">
+            <div class="kiq-card-header">
+                <div>
+                    <div class="kiq-card-title">🔒 Change Password</div>
+                    <div class="kiq-card-subtitle">Update your account security</div>
+                </div>
+            </div>
+            <form id="passwordForm">
+                <div class="kiq-input-group">
+                    <label class="kiq-label">Current Password</label>
+                    <input type="password" class="kiq-input" id="currPass" required>
+                </div>
+                <div class="kiq-input-group">
+                    <label class="kiq-label">New Password</label>
+                    <input type="password" class="kiq-input" id="newPass" minlength="6" required>
+                </div>
+                <div class="kiq-input-group">
+                    <label class="kiq-label">Confirm New Password</label>
+                    <input type="password" class="kiq-input" id="confPass" minlength="6" required>
+                </div>
+                <button type="submit" class="kiq-btn kiq-btn-primary">
+                    <i class="fa-solid fa-key"></i> Change Password
+                </button>
+            </form>
+        </div>
+
+        <div style="height: 60px;"></div>
+    </main>
+</div>
+
+<script src="../js/config.js"></script>
+<script src="../js/settings.js"></script>
+<script src="../js/notifications-bell.js"></script>
+    <script src="../js/search.js"></script>
+    <script src="../js/kitchen-switcher.js"></script>
+</body>
+</html>

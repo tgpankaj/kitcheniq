@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports — KitchenIQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../css/tokens.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <!-- Theme (must be before paint to avoid flash) -->
+    <script src="../js/theme.js"></script>
+</head>
+<body>
+
+<div class="kiq-app">
+
+    <aside class="kiq-sidebar">
+        <a href="dashboard.html" class="kiq-sidebar-logo">
+            <div class="kiq-sidebar-logo-icon"><i class="fa-solid fa-utensils"></i></div>
+            <div class="kiq-sidebar-logo-text">KitchenIQ <span>Pro</span></div>
+        </a>
+
+        <a href="live.html" class="kiq-nav-link"><i class="fa-solid fa-bolt"></i><span>Live Orders</span></a>
+        <nav class="kiq-sidebar-nav">
+            <div class="kiq-nav-section">Main</div>
+            <a href="dashboard.html" class="kiq-nav-link"><i class="fa-solid fa-chart-pie"></i><span>Dashboard</span></a>
+            <a href="analytics.html" class="kiq-nav-link"><i class="fa-solid fa-chart-line"></i><span>Analytics</span></a>
+            <a href="dishes.html" class="kiq-nav-link"><i class="fa-solid fa-burger"></i><span>Dishes</span></a>
+            <a href="customers.html" class="kiq-nav-link"><i class="fa-solid fa-users"></i><span>Customers</span></a>
+            <a href="finance.html" class="kiq-nav-link"><i class="fa-solid fa-indian-rupee-sign"></i><span>Finance</span></a>
+            <a href="foodcost.html" class="kiq-nav-link"><i class="fa-solid fa-calculator"></i><span>Food Cost</span></a>
+            <a href="insights.html" class="kiq-nav-link"><i class="fa-solid fa-lightbulb"></i><span>AI Insights</span><span class="kiq-nav-badge">AI</span></a>
+            <a href="notifications.html" class="kiq-nav-link"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
+            <a href="reports.html" class="kiq-nav-link active"><i class="fa-solid fa-file-lines"></i><span>Reports</span></a>
+            <div class="kiq-nav-section">System</div>
+            <a href="team.html" class="kiq-nav-link"><i class="fa-solid fa-user-group"></i><span>Team</span></a>
+            <a href="activity.html" class="kiq-nav-link"><i class="fa-solid fa-clock-rotate-left"></i><span>Activity</span></a>
+
+            <a href="plans.html" class="kiq-nav-link"><i class="fa-solid fa-crown"></i><span>Plans & Billing</span></a>
+
+
+            <a href="settings.html" class="kiq-nav-link"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+
+            <div class="kiq-nav-section">Data</div>
+            <a href="integrations.html" class="kiq-nav-link"><i class="fa-solid fa-plug"></i><span>Integrations</span></a>
+            <a href="upload.html" class="kiq-nav-link"><i class="fa-solid fa-cloud-arrow-up"></i><span>Upload CSV</span></a>
+        </nav>
+        <div class="kiq-sidebar-footer">
+            <a href="#" id="logoutBtn" class="kiq-nav-link"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></a>
+        </div>
+    </aside>
+
+    <header class="kiq-topbar">
+        <div class="kiq-topbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="kiq-topbar-actions">
+            <div id="kiq-bell-container"></div>
+            <div class="kiq-topbar-user">
+                <div class="kiq-topbar-user-info">
+                    <div class="kiq-topbar-user-name" id="userName">—</div>
+                    <div class="kiq-topbar-user-role">Owner</div>
+                </div>
+                <div class="kiq-avatar" id="userAvatar">?</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="kiq-content">
+
+        <div class="kiq-page-header">
+            <div>
+                <h1 class="kiq-page-title">Reports</h1>
+                <p class="kiq-page-subtitle">Business summaries & exports</p>
+            </div>
+            <div class="kiq-page-actions">
+                <select id="periodSelect" class="kiq-input" style="width: auto; height: 40px;">
+                    <option value="7">Last 7 days</option>
+                    <option value="30" selected>Last 30 days</option>
+                    <option value="90">Last 90 days</option>
+                    <option value="365">Last year</option>
+                </select>
+                <button class="kiq-btn kiq-btn-primary" id="exportBtn">
+                    <i class="fa-solid fa-download"></i> Export CSV
+                </button>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="kiq-card kiq-mb-6" style="background: linear-gradient(135deg, #1e3a8a 0%, #4f46e5 100%); color: white; border: none;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;">
+                <div>
+                    <div style="font-size: 12px; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.05em;">Total Revenue</div>
+                    <div style="font-size: 32px; font-weight: 700; margin-top: 8px;" id="sumRevenue">₹0</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.05em;">Net Profit</div>
+                    <div style="font-size: 32px; font-weight: 700; margin-top: 8px;" id="sumProfit">₹0</div>
+                    <div style="font-size: 13px; opacity: 0.8; margin-top: 4px;" id="sumMargin">0% margin</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.05em;">Total Orders</div>
+                    <div style="font-size: 32px; font-weight: 700; margin-top: 8px;" id="sumOrders">0</div>
+                    <div style="font-size: 13px; opacity: 0.8; margin-top: 4px;" id="sumCancelled">0 cancelled</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.05em;">Avg Order Value</div>
+                    <div style="font-size: 32px; font-weight: 700; margin-top: 8px;" id="sumAov">₹0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart -->
+        <div class="kiq-card kiq-mb-6">
+            <div class="kiq-card-header">
+                <div>
+                    <div class="kiq-card-title">Daily Trends</div>
+                    <div class="kiq-card-subtitle">Revenue & Profit over time</div>
+                </div>
+            </div>
+            <div style="height: 320px; position: relative;">
+                <canvas id="dailyChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Daily Table -->
+        <div class="kiq-card">
+            <div class="kiq-card-header">
+                <div>
+                    <div class="kiq-card-title">Daily Breakdown</div>
+                    <div class="kiq-card-subtitle">Day-by-day performance</div>
+                </div>
+            </div>
+            <div id="dailyTable">
+                <p style="text-align:center; padding: 40px; color: var(--kiq-text-muted);">
+                    <i class="fa-solid fa-circle-notch fa-spin"></i> Loading...
+                </p>
+            </div>
+        </div>
+
+        <div style="height: 60px;"></div>
+    </main>
+</div>
+
+<script src="../js/config.js"></script>
+<script src="../js/reports.js"></script>
+<script src="../js/notifications-bell.js"></script>
+    <script src="../js/search.js"></script>
+    <script src="../js/chart-theme-adapter.js"></script>
+    <script src="../js/kitchen-switcher.js"></script>
+</body>
+</html>

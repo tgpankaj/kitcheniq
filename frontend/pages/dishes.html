@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dishes — KitchenIQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../css/tokens.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <!-- Theme (must be before paint to avoid flash) -->
+    <script src="../js/theme.js"></script>
+</head>
+<body>
+
+<div class="kiq-app">
+
+    <aside class="kiq-sidebar">
+        <a href="dashboard.html" class="kiq-sidebar-logo">
+            <div class="kiq-sidebar-logo-icon"><i class="fa-solid fa-utensils"></i></div>
+            <div class="kiq-sidebar-logo-text">KitchenIQ <span>Pro</span></div>
+        </a>
+
+        <a href="live.html" class="kiq-nav-link"><i class="fa-solid fa-bolt"></i><span>Live Orders</span></a>
+        <nav class="kiq-sidebar-nav">
+            <div class="kiq-nav-section">Main</div>
+            <a href="dashboard.html" class="kiq-nav-link"><i class="fa-solid fa-chart-pie"></i><span>Dashboard</span></a>
+            <a href="analytics.html" class="kiq-nav-link"><i class="fa-solid fa-chart-line"></i><span>Analytics</span></a>
+            <a href="dishes.html" class="kiq-nav-link active"><i class="fa-solid fa-burger"></i><span>Dishes</span></a>
+            <a href="customers.html" class="kiq-nav-link"><i class="fa-solid fa-users"></i><span>Customers</span></a>
+            <a href="finance.html" class="kiq-nav-link"><i class="fa-solid fa-indian-rupee-sign"></i><span>Finance</span></a>
+            <a href="foodcost.html" class="kiq-nav-link"><i class="fa-solid fa-calculator"></i><span>Food Cost</span></a>
+            <a href="insights.html" class="kiq-nav-link"><i class="fa-solid fa-lightbulb"></i><span>AI Insights</span><span class="kiq-nav-badge">AI</span></a>
+            <a href="notifications.html" class="kiq-nav-link"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
+            <a href="reports.html" class="kiq-nav-link"><i class="fa-solid fa-file-lines"></i><span>Reports</span></a>
+            $<div class="kiq-nav-section">System</div>
+            <a href="team.html" class="kiq-nav-link"><i class="fa-solid fa-user-group"></i><span>Team</span></a>
+            <a href="activity.html" class="kiq-nav-link"><i class="fa-solid fa-clock-rotate-left"></i><span>Activity</span></a>
+
+            <a href="plans.html" class="kiq-nav-link"><i class="fa-solid fa-crown"></i><span>Plans & Billing</span></a>
+
+
+            <a href="settings.html" class="kiq-nav-link"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+
+            <div class="kiq-nav-section">Data</div>
+            <a href="integrations.html" class="kiq-nav-link"><i class="fa-solid fa-plug"></i><span>Integrations</span></a>
+            <a href="upload.html" class="kiq-nav-link"><i class="fa-solid fa-cloud-arrow-up"></i><span>Upload CSV</span></a>
+        </nav>
+        <div class="kiq-sidebar-footer">
+            <a href="#" id="logoutBtn" class="kiq-nav-link"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></a>
+        </div>
+    </aside>
+
+    <header class="kiq-topbar">
+        <div class="kiq-topbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" placeholder="Search dishes...">
+        </div>
+        <div class="kiq-topbar-actions">
+            <div id="kiq-bell-container"></div>
+                <div class="kiq-topbar-user">
+                <div class="kiq-topbar-user-info">
+                    <div class="kiq-topbar-user-name" id="userName">—</div>
+                    <div class="kiq-topbar-user-role">Owner</div>
+                </div>
+                <div class="kiq-avatar" id="userAvatar">?</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="kiq-content">
+
+        <div class="kiq-page-header">
+            <div>
+                <h1 class="kiq-page-title">Dishes</h1>
+                <p class="kiq-page-subtitle">Menu engineering & profitability</p>
+            </div>
+            <div class="kiq-page-actions">
+                <select id="periodSelect" class="kiq-input" style="width: auto; height: 40px;">
+                    <option value="7">Last 7 days</option>
+                    <option value="30" selected>Last 30 days</option>
+                    <option value="90">Last 90 days</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- KPI Cards: 4 menu engineering classifications -->
+        <div class="kiq-grid kiq-grid-auto-4 kiq-mb-6">
+            <div class="kiq-kpi" style="border-left: 3px solid #10b981;">
+                <div class="kiq-kpi-header">
+                    <div class="kiq-kpi-label">⭐ Stars</div>
+                    <div class="kiq-kpi-icon success"><i class="fa-solid fa-star"></i></div>
+                </div>
+                <div class="kiq-kpi-value" id="kpiStars">0</div>
+                <span class="kiq-kpi-trend flat">High popularity + High margin</span>
+            </div>
+            <div class="kiq-kpi" style="border-left: 3px solid #f59e0b;">
+                <div class="kiq-kpi-header">
+                    <div class="kiq-kpi-label">🐴 Plowhorses</div>
+                    <div class="kiq-kpi-icon warning"><i class="fa-solid fa-horse"></i></div>
+                </div>
+                <div class="kiq-kpi-value" id="kpiPlowhorses">0</div>
+                <span class="kiq-kpi-trend flat">High popularity + Low margin</span>
+            </div>
+            <div class="kiq-kpi" style="border-left: 3px solid #8b5cf6;">
+                <div class="kiq-kpi-header">
+                    <div class="kiq-kpi-label">🧩 Puzzles</div>
+                    <div class="kiq-kpi-icon info"><i class="fa-solid fa-puzzle-piece"></i></div>
+                </div>
+                <div class="kiq-kpi-value" id="kpiPuzzles">0</div>
+                <span class="kiq-kpi-trend flat">Low popularity + High margin</span>
+            </div>
+            <div class="kiq-kpi" style="border-left: 3px solid #ef4444;">
+                <div class="kiq-kpi-header">
+                    <div class="kiq-kpi-label">🐕 Dogs</div>
+                    <div class="kiq-kpi-icon danger"><i class="fa-solid fa-dog"></i></div>
+                </div>
+                <div class="kiq-kpi-value" id="kpiDogs">0</div>
+                <span class="kiq-kpi-trend flat">Low popularity + Low margin</span>
+            </div>
+        </div>
+
+        <!-- Scatter Chart: Menu Engineering Matrix -->
+        <div class="kiq-card kiq-mb-6">
+            <div class="kiq-card-header">
+                <div>
+                    <div class="kiq-card-title">Menu Engineering Matrix</div>
+                    <div class="kiq-card-subtitle">Quantity (X) vs Margin % (Y) — bubble size = revenue</div>
+                </div>
+            </div>
+            <div style="height: 400px; position: relative;">
+                <canvas id="matrixChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Summary + Top Dishes -->
+        <div class="kiq-grid kiq-grid-2 kiq-mb-6">
+            <div class="kiq-card">
+                <div class="kiq-card-header">
+                    <div>
+                        <div class="kiq-card-title">Top Dishes by Revenue</div>
+                        <div class="kiq-card-subtitle">Best sellers</div>
+                    </div>
+                </div>
+                <div style="height: 300px; position: relative;">
+                    <canvas id="topDishesChart"></canvas>
+                </div>
+            </div>
+
+            <div class="kiq-card">
+                <div class="kiq-card-header">
+                    <div>
+                        <div class="kiq-card-title">Performance Insights</div>
+                        <div class="kiq-card-subtitle">Quick summary</div>
+                    </div>
+                </div>
+                <div id="insightsBox" style="padding: 8px 0;"></div>
+            </div>
+        </div>
+
+        <!-- Full Table -->
+        <div class="kiq-card">
+            <div class="kiq-card-header">
+                <div>
+                    <div class="kiq-card-title">All Dishes</div>
+                    <div class="kiq-card-subtitle">Complete performance table</div>
+                </div>
+            </div>
+            <div id="dishesTable">
+                <p style="text-align:center; padding: 40px; color: var(--kiq-text-muted);">
+                    <i class="fa-solid fa-circle-notch fa-spin"></i> Loading...
+                </p>
+            </div>
+        </div>
+
+        <div style="height: 60px;"></div>
+    </main>
+</div>
+
+<script src="../js/config.js"></script>
+<script src="../js/dishes.js"></script>
+    <script src="../js/notifications-bell.js"></script>
+    <script src="../js/search.js"></script>
+    <script src="../js/chart-theme-adapter.js"></script>
+    <script src="../js/kitchen-switcher.js"></script>
+</body>
+</html>

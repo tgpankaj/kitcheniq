@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Cost — KitchenIQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/tokens.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <!-- Theme (must be before paint to avoid flash) -->
+    <script src="../js/theme.js"></script>
+</head>
+<body>
+
+<div class="kiq-app">
+
+    <aside class="kiq-sidebar">
+        <a href="dashboard.html" class="kiq-sidebar-logo">
+            <div class="kiq-sidebar-logo-icon"><i class="fa-solid fa-utensils"></i></div>
+            <div class="kiq-sidebar-logo-text">KitchenIQ <span>Pro</span></div>
+        </a>
+
+        <a href="live.html" class="kiq-nav-link"><i class="fa-solid fa-bolt"></i><span>Live Orders</span></a>
+        <nav class="kiq-sidebar-nav">
+            <div class="kiq-nav-section">Main</div>
+            <a href="dashboard.html" class="kiq-nav-link"><i class="fa-solid fa-chart-pie"></i><span>Dashboard</span></a>
+            <a href="analytics.html" class="kiq-nav-link"><i class="fa-solid fa-chart-line"></i><span>Analytics</span></a>
+            <a href="dishes.html" class="kiq-nav-link"><i class="fa-solid fa-burger"></i><span>Dishes</span></a>
+            <a href="customers.html" class="kiq-nav-link"><i class="fa-solid fa-users"></i><span>Customers</span></a>
+            <a href="finance.html" class="kiq-nav-link"><i class="fa-solid fa-indian-rupee-sign"></i><span>Finance</span></a>
+            <a href="foodcost.html" class="kiq-nav-link active"><i class="fa-solid fa-calculator"></i><span>Food Cost</span></a>
+            <a href="insights.html" class="kiq-nav-link"><i class="fa-solid fa-lightbulb"></i><span>AI Insights</span><span class="kiq-nav-badge">AI</span></a>
+            <a href="notifications.html" class="kiq-nav-link"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
+            <a href="reports.html" class="kiq-nav-link"><i class="fa-solid fa-file-lines"></i><span>Reports</span></a>
+            <div class="kiq-nav-section">System</div>
+            <a href="team.html" class="kiq-nav-link"><i class="fa-solid fa-user-group"></i><span>Team</span></a>
+            <a href="activity.html" class="kiq-nav-link"><i class="fa-solid fa-clock-rotate-left"></i><span>Activity</span></a>
+
+            <a href="plans.html" class="kiq-nav-link"><i class="fa-solid fa-crown"></i><span>Plans & Billing</span></a>
+
+
+            <a href="settings.html" class="kiq-nav-link"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+
+            <div class="kiq-nav-section">Data</div>
+            <a href="integrations.html" class="kiq-nav-link"><i class="fa-solid fa-plug"></i><span>Integrations</span></a>
+            <a href="upload.html" class="kiq-nav-link"><i class="fa-solid fa-cloud-arrow-up"></i><span>Upload CSV</span></a>
+        </nav>
+        <div class="kiq-sidebar-footer">
+            <a href="#" id="logoutBtn" class="kiq-nav-link"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></a>
+        </div>
+    </aside>
+
+    <header class="kiq-topbar">
+        <div class="kiq-topbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" placeholder="Search ingredients...">
+        </div>
+        <div class="kiq-topbar-actions">
+            <div id="kiq-bell-container"></div>
+                <div class="kiq-topbar-user">
+                <div class="kiq-topbar-user-info">
+                    <div class="kiq-topbar-user-name" id="userName">—</div>
+                    <div class="kiq-topbar-user-role">Owner</div>
+                </div>
+                <div class="kiq-avatar" id="userAvatar">?</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="kiq-content">
+
+        <div class="kiq-page-header">
+            <div>
+                <h1 class="kiq-page-title">Food Cost</h1>
+                <p class="kiq-page-subtitle">Ingredients, recipes, and dish-wise real costing</p>
+            </div>
+            <div class="kiq-page-actions">
+                <select id="periodSelect" class="kiq-input" style="width: auto; height: 40px;">
+                    <option value="7">Last 7 days</option>
+                    <option value="30" selected>Last 30 days</option>
+                    <option value="90">Last 90 days</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div style="display: flex; gap: 8px; border-bottom: 1px solid var(--kiq-border); margin-bottom: 24px;">
+            <button class="kiq-tab active" data-tab="costing">Dish Costing</button>
+            <button class="kiq-tab" data-tab="ingredients">Ingredients</button>
+            <button class="kiq-tab" data-tab="recipes">Recipes</button>
+        </div>
+
+        <!-- DISH COSTING -->
+        <div id="tab-costing" class="kiq-tab-content">
+            <div class="kiq-grid kiq-grid-auto-4 kiq-mb-6">
+                <div class="kiq-kpi">
+                    <div class="kiq-kpi-header">
+                        <div class="kiq-kpi-label">Total Ingredients</div>
+                        <div class="kiq-kpi-icon brand"><i class="fa-solid fa-carrot"></i></div>
+                    </div>
+                    <div class="kiq-kpi-value" id="kpiIngredients">0</div>
+                </div>
+                <div class="kiq-kpi">
+                    <div class="kiq-kpi-header">
+                        <div class="kiq-kpi-label">Stock Value</div>
+                        <div class="kiq-kpi-icon success"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                    </div>
+                    <div class="kiq-kpi-value" id="kpiStockValue">₹0</div>
+                </div>
+                <div class="kiq-kpi">
+                    <div class="kiq-kpi-header">
+                        <div class="kiq-kpi-label">Low Stock Alerts</div>
+                        <div class="kiq-kpi-icon danger"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    </div>
+                    <div class="kiq-kpi-value" id="kpiLowStock">0</div>
+                </div>
+                <div class="kiq-kpi">
+                    <div class="kiq-kpi-header">
+                        <div class="kiq-kpi-label">Recipe Coverage</div>
+                        <div class="kiq-kpi-icon info"><i class="fa-solid fa-clipboard-check"></i></div>
+                    </div>
+                    <div class="kiq-kpi-value" id="kpiCoverage">0%</div>
+                </div>
+            </div>
+
+            <div class="kiq-card">
+                <div class="kiq-card-header">
+                    <div>
+                        <div class="kiq-card-title">Dish Costing (Recipe-based)</div>
+                        <div class="kiq-card-subtitle">Real food cost per dish, based on recipes</div>
+                    </div>
+                </div>
+                <div id="costingTable">
+                    <p style="text-align:center; padding: 40px; color: var(--kiq-text-muted);">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i> Loading...
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- INGREDIENTS -->
+        <div id="tab-ingredients" class="kiq-tab-content" style="display: none;">
+            <div class="kiq-card kiq-mb-6">
+                <div class="kiq-card-header">
+                    <div>
+                        <div class="kiq-card-title">Add Ingredient</div>
+                        <div class="kiq-card-subtitle">Rice, chicken, oil, spices...</div>
+                    </div>
+                </div>
+                <form id="ingredientForm" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr auto; gap: 12px; align-items: end;">
+                    <div>
+                        <label class="kiq-label">Name</label>
+                        <input type="text" name="name" class="kiq-input" placeholder="Basmati Rice" required>
+                    </div>
+                    <div>
+                        <label class="kiq-label">Unit</label>
+                        <select name="unit" class="kiq-input">
+                            <option value="kg">kg</option>
+                            <option value="g">g</option>
+                            <option value="l">l</option>
+                            <option value="ml">ml</option>
+                            <option value="pcs">pcs</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="kiq-label">Cost/Unit (₹)</label>
+                        <input type="number" name="cost_per_unit" class="kiq-input" step="0.01" placeholder="80" required>
+                    </div>
+                    <div>
+                        <label class="kiq-label">Stock</label>
+                        <input type="number" name="current_stock" class="kiq-input" step="0.01" placeholder="10">
+                    </div>
+                    <div>
+                        <label class="kiq-label">Reorder At</label>
+                        <input type="number" name="reorder_threshold" class="kiq-input" step="0.01" placeholder="2">
+                    </div>
+                    <button type="submit" class="kiq-btn kiq-btn-primary">
+                        <i class="fa-solid fa-plus"></i> Add
+                    </button>
+                </form>
+            </div>
+
+            <div class="kiq-card">
+                <div class="kiq-card-header">
+                    <div>
+                        <div class="kiq-card-title">All Ingredients</div>
+                        <div class="kiq-card-subtitle">Current stock & pricing</div>
+                    </div>
+                </div>
+                <div id="ingredientsTable">
+                    <p style="text-align:center; padding: 40px; color: var(--kiq-text-muted);">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i> Loading...
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- RECIPES -->
+        <div id="tab-recipes" class="kiq-tab-content" style="display: none;">
+            <div class="kiq-card kiq-mb-6">
+                <div class="kiq-card-header">
+                    <div>
+                        <div class="kiq-card-title">Add / Update Recipe</div>
+                        <div class="kiq-card-subtitle">Map a dish to its ingredients</div>
+                    </div>
+                </div>
+                <form id="recipeForm" style="display: grid; grid-template-columns: 1.5fr 1.5fr 1fr auto; gap: 12px; align-items: end;">
+                    <div>
+                        <label class="kiq-label">Dish Name</label>
+                        <input type="text" name="dish" class="kiq-input" placeholder="Veg Biryani" required>
+                    </div>
+                    <div>
+                        <label class="kiq-label">Ingredient</label>
+                        <select name="ingredient_id" id="recipeIngredientSelect" class="kiq-input" required>
+                            <option value="">Select ingredient...</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="kiq-label">Quantity</label>
+                        <input type="number" name="quantity" class="kiq-input" step="0.001" placeholder="0.15" required>
+                    </div>
+                    <button type="submit" class="kiq-btn kiq-btn-primary">
+                        <i class="fa-solid fa-plus"></i> Save
+                    </button>
+                </form>
+            </div>
+
+            <div class="kiq-card">
+                <div class="kiq-card-header">
+                    <div>
+                        <div class="kiq-card-title">All Recipes</div>
+                        <div class="kiq-card-subtitle">Dish → ingredient mappings</div>
+                    </div>
+                </div>
+                <div id="recipesTable">
+                    <p style="text-align:center; padding: 40px; color: var(--kiq-text-muted);">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i> Loading...
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 60px;"></div>
+    </main>
+</div>
+
+<style>
+    .kiq-tab {
+        background: none; border: none; padding: 12px 20px;
+        font-size: 14px; font-weight: 500; color: var(--kiq-text-muted);
+        border-bottom: 2px solid transparent; cursor: pointer; transition: all 0.15s;
+        margin-bottom: -1px;
+    }
+    .kiq-tab:hover { color: var(--kiq-text); }
+    .kiq-tab.active { color: var(--kiq-brand-600); border-bottom-color: var(--kiq-brand-600); }
+</style>
+
+<script src="../js/config.js"></script>
+<script src="../js/foodcost.js"></script>
+    <script src="../js/notifications-bell.js"></script>
+    <script src="../js/search.js"></script>
+    <script src="../js/kitchen-switcher.js"></script>
+</body>
+</html>

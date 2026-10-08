@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance — KitchenIQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../css/tokens.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <!-- Theme (must be before paint to avoid flash) -->
+    <script src="../js/theme.js"></script>
+</head>
+<body>
+
+<div class="kiq-app">
+
+    <aside class="kiq-sidebar">
+        <a href="dashboard.html" class="kiq-sidebar-logo">
+            <div class="kiq-sidebar-logo-icon"><i class="fa-solid fa-utensils"></i></div>
+            <div class="kiq-sidebar-logo-text">KitchenIQ <span>Pro</span></div>
+        </a>
+
+        <a href="live.html" class="kiq-nav-link"><i class="fa-solid fa-bolt"></i><span>Live Orders</span></a>
+        <nav class="kiq-sidebar-nav">
+            <div class="kiq-nav-section">Main</div>
+            <a href="dashboard.html" class="kiq-nav-link"><i class="fa-solid fa-chart-pie"></i><span>Dashboard</span></a>
+            <a href="analytics.html" class="kiq-nav-link"><i class="fa-solid fa-chart-line"></i><span>Analytics</span></a>
+            <a href="dishes.html" class="kiq-nav-link"><i class="fa-solid fa-burger"></i><span>Dishes</span></a>
+            <a href="customers.html" class="kiq-nav-link"><i class="fa-solid fa-users"></i><span>Customers</span></a>
+            <a href="finance.html" class="kiq-nav-link active"><i class="fa-solid fa-indian-rupee-sign"></i><span>Finance</span></a>
+            <a href="foodcost.html" class="kiq-nav-link"><i class="fa-solid fa-calculator"></i><span>Food Cost</span></a>
+            <a href="insights.html" class="kiq-nav-link"><i class="fa-solid fa-lightbulb"></i><span>AI Insights</span><span class="kiq-nav-badge">AI</span></a>
+            <a href="notifications.html" class="kiq-nav-link"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
+            <a href="reports.html" class="kiq-nav-link"><i class="fa-solid fa-file-lines"></i><span>Reports</span></a>
+            <div class="kiq-nav-section">System</div>
+            <a href="team.html" class="kiq-nav-link"><i class="fa-solid fa-user-group"></i><span>Team</span></a>
+            <a href="activity.html" class="kiq-nav-link"><i class="fa-solid fa-clock-rotate-left"></i><span>Activity</span></a>
+
+            <a href="plans.html" class="kiq-nav-link"><i class="fa-solid fa-crown"></i><span>Plans & Billing</span></a>
+
+
+            <a href="settings.html" class="kiq-nav-link"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+
+            <div class="kiq-nav-section">Data</div>
+            <a href="integrations.html" class="kiq-nav-link"><i class="fa-solid fa-plug"></i><span>Integrations</span></a>
+            <a href="upload.html" class="kiq-nav-link"><i class="fa-solid fa-cloud-arrow-up"></i><span>Upload CSV</span></a>
+        </nav>
+        <div class="kiq-sidebar-footer">
+            <a href="#" id="logoutBtn" class="kiq-nav-link"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></a>
+        </div>
+    </aside>
+
+    <header class="kiq-topbar">
+        <div class="kiq-topbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="kiq-topbar-actions">
+            <div id="kiq-bell-container"></div>
+                <div class="kiq-topbar-user">
+                <div class="kiq-topbar-user-info">
+                    <div class="kiq-topbar-user-name" id="userName">—</div>
+                    <div class="kiq-topbar-user-role">Owner</div>
+                </div>
+                <div class="kiq-avatar" id="userAvatar">?</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="kiq-content">
+
+        <div class="kiq-page-header">
+            <div>
+                <h1 class="kiq-page-title">Finance</h1>
+                <p class="kiq-page-subtitle">Profit & Loss statement</p>
+            </div>
+            <div class="kiq-page-actions">
+                <select id="periodSelect" class="kiq-input" style="width: auto; height: 40px;">
+                    <option value="7">Last 7 days</option>
+                    <option value="30" selected>Last 30 days</option>
+                    <option value="90">Last 90 days</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kiq-grid kiq-grid-auto-4 kiq-mb-6">
+            <div class="kiq-kpi">
+                <div class="kiq-kpi-header">
+                    <div class="kiq-kpi-label">Gross Revenue</div>
+                    <div class="kiq-kpi-icon brand"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                </div>
+                <div class="kiq-kpi-value" id="kpiGross">₹0</div>
+                <span class="kiq-kpi-trend flat" id="kpiOrders">0 orders</span>
+            </div>
+            <div class="kiq-kpi">
+                <div class="kiq-kpi-header">
+                    <div class="kiq-kpi-label">Net Sales</div>
+                    <div class="kiq-kpi-icon info"><i class="fa-solid fa-receipt"></i></div>
+                </div>
+                <div class="kiq-kpi-value" id="kpiNetSales">₹0</div>
+                <span class="kiq-kpi-trend down" id="kpiDiscounts">− ₹0 discounts</span>
+            </div>
+            <div class="kiq-kpi">
+                <div class="kiq-kpi-header">
+                    <div class="kiq-kpi-label">Total Costs</div>
+                    <div class="kiq-kpi-icon warning"><i class="fa-solid fa-arrow-trend-down"></i></div>
+                </div>
+                <div class="kiq-kpi-value" id="kpiCosts">₹0</div>
+                <span class="kiq-kpi-trend flat">Food + Fees + Packaging</span>
+            </div>
+            <div class="kiq-kpi">
+                <div class="kiq-kpi-header">
+                    <div class="kiq-kpi-label">Net Profit</div>
+                    <div class="kiq-kpi-icon success"><i class="fa-solid fa-wallet"></i></div>
+                </div>
+                <div class="kiq-kpi-value" id="kpiProfit">₹0</div>
+                <span class="kiq-kpi-trend up" id="kpiMargin">0% margin</span>
+            </div>
+        </div>
+
+        <!-- P&L + Cost Chart -->
+        <div class="kiq-grid kiq-grid-2 kiq-mb-6">
+            <div class="kiq-card">
+                <div class="kiq-card-header">
+                    <div>
+                        <div class="kiq-card-title">Profit & Loss Statement</div>
+                        <div class="kiq-card-subtitle">Full breakdown</div>
+                    </div>
+                </div>
+                <div id="pnlStatement" style="padding: 4px 0;">
+                    <p style="text-align:center; padding: 40px; color: var(--kiq-text-muted);">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i> Loading...
+                    </p>
+                </div>
+            </div>
+
+            <div class="kiq-card">
+                <div class="kiq-card-header">
+                    <div>
+                        <div class="kiq-card-title">Cost Breakdown</div>
+                        <div class="kiq-card-subtitle">Where money goes</div>
+                    </div>
+                </div>
+                <div style="height: 320px; position: relative;">
+                    <canvas id="costChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Platform Table -->
+        <div class="kiq-card">
+            <div class="kiq-card-header">
+                <div>
+                    <div class="kiq-card-title">Platform-wise Profitability</div>
+                    <div class="kiq-card-subtitle">Compare your sales channels</div>
+                </div>
+            </div>
+            <div id="platformsTable">
+                <p style="text-align:center; padding: 40px; color: var(--kiq-text-muted);">
+                    <i class="fa-solid fa-circle-notch fa-spin"></i> Loading...
+                </p>
+            </div>
+        </div>
+
+        <div style="height: 60px;"></div>
+    </main>
+</div>
+
+<script src="../js/config.js"></script>
+<script src="../js/finance.js"></script>
+    <script src="../js/notifications-bell.js"></script>
+    <script src="../js/search.js"></script>
+    <script src="../js/chart-theme-adapter.js"></script>
+    <script src="../js/kitchen-switcher.js"></script>
+</body>
+</html>

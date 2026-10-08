@@ -1,0 +1,130 @@
+/* ============================================================
+   KitchenIQ — Design Tokens (Light + Dark)
+   ============================================================ */
+
+:root {
+    /* Brand */
+    --kiq-brand-50:  #eff6ff;
+    --kiq-brand-100: #dbeafe;
+    --kiq-brand-200: #bfdbfe;
+    --kiq-brand-500: #3b82f6;
+    --kiq-brand-600: #2563eb;
+    --kiq-brand-700: #1d4ed8;
+
+    /* Semantic */
+    --kiq-success-50:  #ecfdf5;
+    --kiq-success-500: #10b981;
+    --kiq-success-600: #059669;
+    --kiq-success-700: #047857;
+
+    --kiq-warning-50:  #fffbeb;
+    --kiq-warning-500: #f59e0b;
+    --kiq-warning-600: #d97706;
+    --kiq-warning-700: #b45309;
+
+    --kiq-danger-50:  #fef2f2;
+    --kiq-danger-100: #fee2e2;
+    --kiq-danger-500: #ef4444;
+    --kiq-danger-600: #dc2626;
+    --kiq-danger-700: #b91c1c;
+
+    --kiq-info-50:  #f0f9ff;
+    --kiq-info-500: #0ea5e9;
+    --kiq-info-600: #0284c7;
+
+    /* Neutrals */
+    --kiq-gray-50:  #f8fafc;
+    --kiq-gray-100: #f1f5f9;
+    --kiq-gray-200: #e2e8f0;
+    --kiq-gray-300: #cbd5e1;
+    --kiq-gray-400: #94a3b8;
+    --kiq-gray-500: #64748b;
+    --kiq-gray-600: #475569;
+    --kiq-gray-700: #334155;
+    --kiq-gray-800: #1e293b;
+    --kiq-gray-900: #0f172a;
+    --kiq-gray-950: #020617;
+
+    /* ==== THEME (LIGHT) ==== */
+    --kiq-bg:             var(--kiq-gray-50);
+    --kiq-bg-elevated:    #ffffff;
+    --kiq-bg-sunken:      var(--kiq-gray-100);
+    --kiq-bg-hover:       var(--kiq-gray-100);
+
+    --kiq-text:           var(--kiq-gray-900);
+    --kiq-text-muted:     var(--kiq-gray-500);
+    --kiq-text-subtle:    var(--kiq-gray-400);
+    --kiq-text-invert:    #ffffff;
+
+    --kiq-border:         var(--kiq-gray-200);
+    --kiq-border-strong:  var(--kiq-gray-300);
+
+    --kiq-sidebar-bg:     var(--kiq-gray-900);
+    --kiq-sidebar-text:   var(--kiq-gray-300);
+    --kiq-sidebar-active: #ffffff;
+
+    --kiq-shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+    --kiq-shadow-md: 0 4px 6px rgba(15, 23, 42, 0.06);
+    --kiq-shadow-lg: 0 10px 40px rgba(15, 23, 42, 0.12);
+
+    /* Typography */
+    --kiq-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --kiq-text-xs:   0.75rem;
+    --kiq-text-sm:   0.875rem;
+    --kiq-text-base: 1rem;
+    --kiq-text-lg:   1.125rem;
+    --kiq-text-xl:   1.25rem;
+    --kiq-text-2xl:  1.5rem;
+    --kiq-text-3xl:  1.875rem;
+
+    /* Space */
+    --kiq-space-1: 0.25rem;
+    --kiq-space-2: 0.5rem;
+    --kiq-space-3: 0.75rem;
+    --kiq-space-4: 1rem;
+    --kiq-space-5: 1.25rem;
+    --kiq-space-6: 1.5rem;
+
+    /* Radius */
+    --kiq-radius-sm: 4px;
+    --kiq-radius-md: 8px;
+    --kiq-radius-lg: 12px;
+    --kiq-radius-full: 999px;
+
+    /* Transitions */
+    --kiq-transition-fast: 150ms ease;
+    --kiq-transition-base: 250ms ease;
+}
+
+/* ============================================================
+   DARK MODE
+   ============================================================ */
+[data-theme="dark"] {
+    --kiq-bg:             var(--kiq-gray-950);
+    --kiq-bg-elevated:    #0f172a;
+    --kiq-bg-sunken:      #000000;
+    --kiq-bg-hover:       var(--kiq-gray-800);
+
+    --kiq-text:           var(--kiq-gray-50);
+    --kiq-text-muted:     var(--kiq-gray-400);
+    --kiq-text-subtle:    var(--kiq-gray-500);
+    --kiq-text-invert:    var(--kiq-gray-900);
+
+    --kiq-border:         var(--kiq-gray-800);
+    --kiq-border-strong:  var(--kiq-gray-700);
+
+    --kiq-sidebar-bg:     #000000;
+    --kiq-sidebar-text:   var(--kiq-gray-400);
+
+    --kiq-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+    --kiq-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+    --kiq-shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.6);
+
+    /* Adjust semantic backgrounds for dark */
+    --kiq-success-50: rgba(16, 185, 129, 0.15);
+    --kiq-warning-50: rgba(245, 158, 11, 0.15);
+    --kiq-danger-50:  rgba(239, 68, 68, 0.15);
+    --kiq-info-50:    rgba(14, 165, 233, 0.15);
+    --kiq-brand-50:   rgba(59, 130, 246, 0.15);
+    --kiq-brand-100:  rgba(59, 130, 246, 0.25);
+}

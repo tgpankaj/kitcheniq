@@ -1,0 +1,59 @@
+/* ============================================================
+   KitchenIQ — Base
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color var(--kiq-transition-base), color var(--kiq-transition-base);
+}
+
+body {
+    font-family: var(--kiq-font-sans);
+    font-size: var(--kiq-text-base);
+    line-height: 1.5;
+    color: var(--kiq-text);
+    background: var(--kiq-bg);
+    min-height: 100vh;
+    transition: background-color var(--kiq-transition-base), color var(--kiq-transition-base);
+}
+
+img, svg { display: block; max-width: 100%; }
+
+button, input, select, textarea {
+    font-family: inherit; font-size: inherit; color: inherit;
+    background: none; border: none; outline: none;
+}
+
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: 0.5; }
+
+a { color: var(--kiq-brand-600); text-decoration: none; transition: color 0.15s; }
+a:hover { color: var(--kiq-brand-700); }
+
+h1, h2, h3, h4 { font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--kiq-gray-300); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--kiq-gray-400); }
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb { background: var(--kiq-gray-700); }
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover { background: var(--kiq-gray-600); }
+
+:focus-visible {
+    outline: 2px solid var(--kiq-brand-500);
+    outline-offset: 2px;
+    border-radius: var(--kiq-radius-sm);
+}
+
+::selection { background: var(--kiq-brand-500); color: white; }
+
+/* Smooth theme transition for key elements */
+body, .kiq-sidebar, .kiq-topbar, .kiq-card, .kiq-kpi, .kiq-input {
+    transition: background-color var(--kiq-transition-base),
+                color var(--kiq-transition-base),
+                border-color var(--kiq-transition-base);
+}

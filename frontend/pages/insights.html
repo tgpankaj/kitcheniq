@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Insights — KitchenIQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/tokens.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <!-- Theme (must be before paint to avoid flash) -->
+    <script src="../js/theme.js"></script>
+</head>
+<body>
+
+<div class="kiq-app">
+
+    <aside class="kiq-sidebar">
+        <a href="dashboard.html" class="kiq-sidebar-logo">
+            <div class="kiq-sidebar-logo-icon"><i class="fa-solid fa-utensils"></i></div>
+            <div class="kiq-sidebar-logo-text">KitchenIQ <span>Pro</span></div>
+        </a>
+
+        <a href="live.html" class="kiq-nav-link"><i class="fa-solid fa-bolt"></i><span>Live Orders</span></a>
+        <nav class="kiq-sidebar-nav">
+            <div class="kiq-nav-section">Main</div>
+            <a href="dashboard.html" class="kiq-nav-link"><i class="fa-solid fa-chart-pie"></i><span>Dashboard</span></a>
+            <a href="analytics.html" class="kiq-nav-link"><i class="fa-solid fa-chart-line"></i><span>Analytics</span></a>
+            <a href="dishes.html" class="kiq-nav-link"><i class="fa-solid fa-burger"></i><span>Dishes</span></a>
+            <a href="customers.html" class="kiq-nav-link"><i class="fa-solid fa-users"></i><span>Customers</span></a>
+            <a href="finance.html" class="kiq-nav-link"><i class="fa-solid fa-indian-rupee-sign"></i><span>Finance</span></a>
+            <a href="foodcost.html" class="kiq-nav-link"><i class="fa-solid fa-calculator"></i><span>Food Cost</span></a>
+            <a href="insights.html" class="kiq-nav-link active"><i class="fa-solid fa-lightbulb"></i><span>AI Insights</span><span class="kiq-nav-badge">AI</span></a>
+            <a href="notifications.html" class="kiq-nav-link"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
+            <a href="reports.html" class="kiq-nav-link"><i class="fa-solid fa-file-lines"></i><span>Reports</span></a>
+            <div class="kiq-nav-section">System</div>
+            <a href="team.html" class="kiq-nav-link"><i class="fa-solid fa-user-group"></i><span>Team</span></a>
+            <a href="activity.html" class="kiq-nav-link"><i class="fa-solid fa-clock-rotate-left"></i><span>Activity</span></a>
+
+            <a href="plans.html" class="kiq-nav-link"><i class="fa-solid fa-crown"></i><span>Plans & Billing</span></a>
+
+
+            <a href="settings.html" class="kiq-nav-link"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+
+            <div class="kiq-nav-section">Data</div>
+            <a href="integrations.html" class="kiq-nav-link"><i class="fa-solid fa-plug"></i><span>Integrations</span></a>
+            <a href="upload.html" class="kiq-nav-link"><i class="fa-solid fa-cloud-arrow-up"></i><span>Upload CSV</span></a>
+        </nav>
+        <div class="kiq-sidebar-footer">
+            <a href="#" id="logoutBtn" class="kiq-nav-link"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></a>
+        </div>
+    </aside>
+
+    <header class="kiq-topbar">
+        <div class="kiq-topbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" placeholder="Search insights...">
+        </div>
+        <div class="kiq-topbar-actions">
+            <div id="kiq-bell-container"></div>
+                <div class="kiq-topbar-user">
+                <div class="kiq-topbar-user-info">
+                    <div class="kiq-topbar-user-name" id="userName">—</div>
+                    <div class="kiq-topbar-user-role">Owner</div>
+                </div>
+                <div class="kiq-avatar" id="userAvatar">?</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="kiq-content">
+
+        <div class="kiq-page-header">
+            <div>
+                <h1 class="kiq-page-title">AI Business Insights</h1>
+                <p class="kiq-page-subtitle">Actionable recommendations based on your data</p>
+            </div>
+            <div class="kiq-page-actions">
+                <select id="periodSelect" class="kiq-input" style="width: auto; height: 40px;">
+                    <option value="7">Last 7 days</option>
+                    <option value="30" selected>Last 30 days</option>
+                    <option value="90">Last 90 days</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Type Counts -->
+        <div class="kiq-grid kiq-grid-auto-4 kiq-mb-6">
+            <div class="kiq-kpi" style="border-left: 3px solid #ef4444;">
+                <div class="kiq-kpi-header">
+                    <div class="kiq-kpi-label">Critical</div>
+                    <div class="kiq-kpi-icon danger"><i class="fa-solid fa-circle-exclamation"></i></div>
+                </div>
+                <div class="kiq-kpi-value" id="kpiDanger">0</div>
+                <span class="kiq-kpi-trend flat">Needs immediate action</span>
+            </div>
+            <div class="kiq-kpi" style="border-left: 3px solid #f59e0b;">
+                <div class="kiq-kpi-header">
+                    <div class="kiq-kpi-label">Optimize</div>
+                    <div class="kiq-kpi-icon warning"><i class="fa-solid fa-wrench"></i></div>
+                </div>
+                <div class="kiq-kpi-value" id="kpiWarning">0</div>
+                <span class="kiq-kpi-trend flat">Cost & margin issues</span>
+            </div>
+            <div class="kiq-kpi" style="border-left: 3px solid #3b82f6;">
+                <div class="kiq-kpi-header">
+                    <div class="kiq-kpi-label">Opportunity</div>
+                    <div class="kiq-kpi-icon brand"><i class="fa-solid fa-lightbulb"></i></div>
+                </div>
+                <div class="kiq-kpi-value" id="kpiInfo">0</div>
+                <span class="kiq-kpi-trend flat">Growth potential</span>
+            </div>
+            <div class="kiq-kpi" style="border-left: 3px solid #10b981;">
+                <div class="kiq-kpi-header">
+                    <div class="kiq-kpi-label">Promote</div>
+                    <div class="kiq-kpi-icon success"><i class="fa-solid fa-arrow-up-right-dots"></i></div>
+                </div>
+                <div class="kiq-kpi-value" id="kpiSuccess">0</div>
+                <span class="kiq-kpi-trend flat">Winning strategies</span>
+            </div>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div style="display: flex; gap: 8px; border-bottom: 1px solid var(--kiq-border); margin-bottom: 24px; overflow-x: auto;">
+            <button class="kiq-tab active" data-filter="all">All Insights</button>
+            <button class="kiq-tab" data-filter="danger">Critical</button>
+            <button class="kiq-tab" data-filter="warning">Optimize</button>
+            <button class="kiq-tab" data-filter="info">Opportunity</button>
+            <button class="kiq-tab" data-filter="success">Promote</button>
+        </div>
+
+        <!-- Insights Grid -->
+        <div id="insightsGrid">
+            <p style="text-align:center; padding: 40px; color: var(--kiq-text-muted);">
+                <i class="fa-solid fa-circle-notch fa-spin"></i> Loading insights...
+            </p>
+        </div>
+
+        <div style="height: 60px;"></div>
+    </main>
+</div>
+
+<style>
+    .kiq-tab {
+        background: none; border: none; padding: 12px 20px;
+        font-size: 14px; font-weight: 500; color: var(--kiq-text-muted);
+        border-bottom: 2px solid transparent; cursor: pointer; transition: all 0.15s;
+        margin-bottom: -1px; white-space: nowrap;
+    }
+    .kiq-tab:hover { color: var(--kiq-text); }
+    .kiq-tab.active { color: var(--kiq-brand-600); border-bottom-color: var(--kiq-brand-600); }
+
+    .insight-card {
+        background: white;
+        border: 1px solid var(--kiq-border);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 16px;
+        position: relative;
+        overflow: hidden;
+    }
+    .insight-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 4px;
+        height: 100%;
+    }
+    .insight-danger::before  { background: #ef4444; }
+    .insight-warning::before { background: #f59e0b; }
+    .insight-info::before    { background: #3b82f6; }
+    .insight-success::before { background: #10b981; }
+
+    .insight-badge {
+        display: inline-flex; align-items: center; gap: 4px;
+        font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
+        text-transform: uppercase;
+        padding: 3px 8px; border-radius: 4px;
+        margin-bottom: 8px;
+    }
+    .badge-danger  { background: #fee2e2; color: #b91c1c; }
+    .badge-warning { background: #fef3c7; color: #b45309; }
+    .badge-info    { background: #dbeafe; color: #1d4ed8; }
+    .badge-success { background: #d1fae5; color: #047857; }
+</style>
+
+<script src="../js/config.js"></script>
+<script src="../js/insights.js"></script>
+    <script src="../js/notifications-bell.js"></script>
+    <script src="../js/search.js"></script>
+    <script src="../js/kitchen-switcher.js"></script>
+</body>
+</html>

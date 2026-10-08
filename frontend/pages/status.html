@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System Status — KitchenIQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="../js/theme.js"></script>
+    <link rel="stylesheet" href="../css/tokens.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <style>
+        .status-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-dot.ok { background: #10b981; box-shadow: 0 0 8px #10b981; }
+        .status-dot.err { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
+        .status-dot.warn { background: #f59e0b; box-shadow: 0 0 8px #f59e0b; }
+    </style>
+</head>
+<body>
+
+<div class="kiq-app">
+    <aside class="kiq-sidebar">
+        <a href="dashboard.html" class="kiq-sidebar-logo">
+            <div class="kiq-sidebar-logo-icon"><i class="fa-solid fa-utensils"></i></div>
+            <div class="kiq-sidebar-logo-text">KitchenIQ <span>Pro</span></div>
+        </a>
+        <nav class="kiq-sidebar-nav">
+            <div class="kiq-nav-section">Main</div>
+            <a href="dashboard.html" class="kiq-nav-link"><i class="fa-solid fa-chart-pie"></i><span>Dashboard</span></a>
+            <a href="live.html" class="kiq-nav-link"><i class="fa-solid fa-bolt"></i><span>Live Orders</span></a>
+            <a href="analytics.html" class="kiq-nav-link"><i class="fa-solid fa-chart-line"></i><span>Analytics</span></a>
+            <div class="kiq-nav-section">System</div>
+            <a href="status.html" class="kiq-nav-link active"><i class="fa-solid fa-heart-pulse"></i><span>System Status</span></a>
+            <a href="settings.html" class="kiq-nav-link"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+        </nav>
+    </aside>
+
+    <header class="kiq-topbar">
+        <div class="kiq-topbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search..." disabled>
+        </div>
+        <div class="kiq-topbar-actions">
+            <div class="kiq-topbar-user">
+                <div class="kiq-topbar-user-info">
+                    <div class="kiq-topbar-user-name" id="userName">—</div>
+                    <div class="kiq-topbar-user-role">Owner</div>
+                </div>
+                <div class="kiq-avatar" id="userAvatar">?</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="kiq-content">
+
+        <div class="kiq-page-header">
+            <div>
+                <h1 class="kiq-page-title">System Status</h1>
+                <p class="kiq-page-subtitle">Live health & metrics · Auto-refresh 15s</p>
+            </div>
+            <div class="kiq-page-actions">
+                <button class="kiq-btn kiq-btn-secondary" onclick="loadAll()">
+                    <i class="fa-solid fa-rotate"></i> Refresh
+                </button>
+            </div>
+        </div>
+
+        <!-- Overall Status -->
+        <div class="kiq-card kiq-mb-6" id="overallCard" style="background: linear-gradient(135deg, #1e3a8a 0%, #4f46e5 100%); color: white; border: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div style="font-size: 12px; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.05em;">Overall Status</div>
+                    <div style="font-size: 32px; font-weight: 800; margin: 8px 0;" id="overallStatus">Checking...</div>
+                    <div style="font-size: 14px; opacity: 0.85;" id="overallDetail">—</div>
+                </div>
+                <div style="font-size: 64px; opacity: 0.2;">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Health Checks -->
+        <div class="kiq-grid kiq-grid-2 kiq-mb-6">
+            <div class="kiq-card">
+                <div class="kiq-card-header">
+                    <div>
+                        <div class="kiq-card-title">Health Checks</div>
+                        <div class="kiq-card-subtitle">Service dependencies</div>
+                    </div>
+                </div>
+                <div id="healthChecks">
+                    <p style="text-align:center; padding: 20px; color: var(--kiq-text-muted);">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i> Loading...
+                    </p>
+                </div>
+            </div>
+
+            <div class="kiq-card">
+                <div class="kiq-card-header">
+                    <div>
+                        <div class="kiq-card-title">App Info</div>
+                        <div class="kiq-card-subtitle">Version & uptime</div>
+                    </div>
+                </div>
+                <div id="appInfo">
+                    <p style="text-align:center; padding: 20px; color: var(--kiq-text-muted);">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i> Loading...
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Metrics -->
+        <div class="kiq-grid kiq-grid-auto-4 kiq-mb-6" id="metricsGrid">
+            <p style="grid-column: 1 / -1; text-align: center; color: var(--kiq-text-muted);">
+                <i class="fa-solid fa-circle-notch fa-spin"></i> Loading metrics...
+            </p>
+        </div>
+
+        <!-- Endpoint Health -->
+        <div class="kiq-card">
+            <div class="kiq-card-header">
+                <div>
+                    <div class="kiq-card-title">Endpoint Health</div>
+                    <div class="kiq-card-subtitle">Key API checks</div>
+                </div>
+            </div>
+            <div id="endpoints">
+                <p style="text-align:center; padding: 20px; color: var(--kiq-text-muted);">
+                    <i class="fa-solid fa-circle-notch fa-spin"></i> Running checks...
+                </p>
+            </div>
+        </div>
+
+        <div style="height: 60px;"></div>
+    </main>
+</div>
+
+<script src="../js/config.js"></script>
+<script src="../js/status.js"></script>
+</body>
+</html>

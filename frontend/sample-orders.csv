@@ -1,0 +1,17 @@
+order_id,order_date,order_time,platform,customer_phone,customer_name,item_name,quantity,unit_price,discount,platform_fee,food_cost,status
+ORD001,2026-09-28,19:30,zomato,9876543210,Rohit Sharma,Veg Biryani,2,180,50,79,170,delivered
+ORD002,2026-09-28,20:15,swiggy,9876543211,Priya Singh,Chicken Biryani,1,260,0,65,130,delivered
+ORD003,2026-09-28,13:00,zomato,9876543212,Amit Verma,Paneer Butter Masala,2,220,100,88,190,delivered
+ORD004,2026-09-29,19:45,swiggy,9876543213,Sneha Patel,Chicken Roll,3,140,0,105,180,delivered
+ORD005,2026-09-29,21:00,zomato,9876543214,Vikram Rao,Veg Hakka Noodles,2,160,80,64,110,delivered
+ORD006,2026-09-29,12:30,manual,9876543215,Anjali Mehta,Butter Chicken,1,320,0,0,150,delivered
+ORD007,2026-09-30,20:30,swiggy,9876543216,Rahul Kumar,Masala Dosa,2,120,0,60,80,delivered
+ORD008,2026-09-30,19:00,zomato,9876543217,Deepa Nair,Veg Biryani,1,180,30,40,85,delivered
+ORD009,2026-09-30,21:15,swiggy,9876543218,Sanjay Gupta,Chicken Biryani,2,260,0,130,260,delivered
+ORD010,2026-10-01,19:30,zomato,9876543210,Rohit Sharma,Veg Biryani,2,180,0,79,170,delivered
+ORD011,2026-10-01,20:00,swiggy,9876543212,Amit Verma,Paneer Tikka,1,240,0,60,100,delivered
+ORD012,2026-10-01,21:30,zomato,9876543219,Kiran Reddy,Dal Tadka,2,160,40,64,100,delivered
+ORD013,2026-10-01,14:00,manual,9876543211,Priya Singh,Idli Sambar,2,90,0,0,60,delivered
+ORD014,2026-10-01,20:45,zomato,9876543220,Meera Iyer,Chicken Biryani,1,260,30,57,130,delivered
+ORD015,2026-10-01,19:15,swiggy,9876543215,Anjali Mehta,Butter Chicken,1,320,0,80,150,delivered
+ORD016,2026-10-01,18:00,zomato,9876543221,Vivek Joshi,Veg Biryani,2,180,0,79,170,cancelled

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team — KitchenIQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/tokens.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <!-- Theme (must be before paint to avoid flash) -->
+    <script src="../js/theme.js"></script>
+</head>
+<body>
+
+<div class="kiq-app">
+
+    <aside class="kiq-sidebar">
+        <a href="dashboard.html" class="kiq-sidebar-logo">
+            <div class="kiq-sidebar-logo-icon"><i class="fa-solid fa-utensils"></i></div>
+            <div class="kiq-sidebar-logo-text">KitchenIQ <span>Pro</span></div>
+        </a>
+
+        <a href="live.html" class="kiq-nav-link"><i class="fa-solid fa-bolt"></i><span>Live Orders</span></a>
+        <nav class="kiq-sidebar-nav">
+            <div class="kiq-nav-section">Main</div>
+            <a href="dashboard.html" class="kiq-nav-link"><i class="fa-solid fa-chart-pie"></i><span>Dashboard</span></a>
+            <a href="analytics.html" class="kiq-nav-link"><i class="fa-solid fa-chart-line"></i><span>Analytics</span></a>
+            <a href="dishes.html" class="kiq-nav-link"><i class="fa-solid fa-burger"></i><span>Dishes</span></a>
+            <a href="customers.html" class="kiq-nav-link"><i class="fa-solid fa-users"></i><span>Customers</span></a>
+            <a href="finance.html" class="kiq-nav-link"><i class="fa-solid fa-indian-rupee-sign"></i><span>Finance</span></a>
+            <a href="foodcost.html" class="kiq-nav-link"><i class="fa-solid fa-calculator"></i><span>Food Cost</span></a>
+            <a href="insights.html" class="kiq-nav-link"><i class="fa-solid fa-lightbulb"></i><span>AI Insights</span><span class="kiq-nav-badge">AI</span></a>
+            <a href="notifications.html" class="kiq-nav-link"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
+            <a href="reports.html" class="kiq-nav-link"><i class="fa-solid fa-file-lines"></i><span>Reports</span></a>
+            <div class="kiq-nav-section">Data</div>
+            <a href="integrations.html" class="kiq-nav-link"><i class="fa-solid fa-plug"></i><span>Integrations</span></a>
+            <a href="upload.html" class="kiq-nav-link"><i class="fa-solid fa-cloud-arrow-up"></i><span>Upload CSV</span></a>
+            <div class="kiq-nav-section">System</div>
+            <a href="team.html" class="kiq-nav-link active"><i class="fa-solid fa-user-group"></i><span>Team</span></a>
+            <a href="activity.html" class="kiq-nav-link"><i class="fa-solid fa-clock-rotate-left"></i><span>Activity</span></a>
+
+            <a href="plans.html" class="kiq-nav-link"><i class="fa-solid fa-crown"></i><span>Plans & Billing</span></a>
+
+
+            <a href="settings.html" class="kiq-nav-link"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+        </nav>
+        <div class="kiq-sidebar-footer">
+            <a href="#" id="logoutBtn" class="kiq-nav-link"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></a>
+        </div>
+    </aside>
+
+    <header class="kiq-topbar">
+        <div class="kiq-topbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search team...">
+        </div>
+        <div class="kiq-topbar-actions">
+            <div id="kiq-bell-container"></div>
+            <div class="kiq-topbar-user">
+                <div class="kiq-topbar-user-info">
+                    <div class="kiq-topbar-user-name" id="userName">—</div>
+                    <div class="kiq-topbar-user-role" id="userRole">—</div>
+                </div>
+                <div class="kiq-avatar" id="userAvatar">?</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="kiq-content">
+
+        <div class="kiq-page-header">
+            <div>
+                <h1 class="kiq-page-title">Team Members</h1>
+                <p class="kiq-page-subtitle">Manage who has access to your kitchen</p>
+            </div>
+            <div class="kiq-page-actions">
+                <button class="kiq-btn kiq-btn-primary" id="addMemberBtn" style="display: none;">
+                    <i class="fa-solid fa-user-plus"></i> Add Member
+                </button>
+            </div>
+        </div>
+
+        <!-- Current User Role Info -->
+        <div class="kiq-alert kiq-alert-info kiq-mb-6">
+            <i class="fa-solid fa-shield-halved"></i>
+            <div>
+                <strong>Your role: <span id="myRole">—</span></strong><br>
+                <span id="roleDesc" style="font-size: 13px; opacity: 0.8;"></span>
+            </div>
+        </div>
+
+        <!-- Team Grid -->
+        <div class="kiq-grid kiq-grid-auto-3">
+            <div id="teamGrid" style="grid-column: 1 / -1;">
+                <p style="text-align:center; padding: 40px; color: var(--kiq-text-muted);">
+                    <i class="fa-solid fa-circle-notch fa-spin"></i> Loading...
+                </p>
+            </div>
+        </div>
+
+        <!-- Roles Legend -->
+        <div class="kiq-card kiq-mt-6">
+            <div class="kiq-card-header">
+                <div>
+                    <div class="kiq-card-title">Role Permissions</div>
+                    <div class="kiq-card-subtitle">What each role can do</div>
+                </div>
+            </div>
+            <div class="kiq-grid kiq-grid-auto-4">
+                <div style="padding: 12px; border: 1px solid var(--kiq-border); border-radius: 8px;">
+                    <div style="font-weight: 600; margin-bottom: 6px; color: var(--kiq-brand-700);">👑 Owner</div>
+                    <div style="font-size: 13px; color: var(--kiq-text-muted);">Full access to everything</div>
+                </div>
+                <div style="padding: 12px; border: 1px solid var(--kiq-border); border-radius: 8px;">
+                    <div style="font-weight: 600; margin-bottom: 6px; color: var(--kiq-brand-700);">📊 Manager</div>
+                    <div style="font-size: 13px; color: var(--kiq-text-muted);">Analytics, orders, team</div>
+                </div>
+                <div style="padding: 12px; border: 1px solid var(--kiq-border); border-radius: 8px;">
+                    <div style="font-weight: 600; margin-bottom: 6px; color: var(--kiq-brand-700);">👨‍🍳 Staff</div>
+                    <div style="font-size: 13px; color: var(--kiq-text-muted);">Orders, food cost only</div>
+                </div>
+                <div style="padding: 12px; border: 1px solid var(--kiq-border); border-radius: 8px;">
+                    <div style="font-weight: 600; margin-bottom: 6px; color: var(--kiq-brand-700);">📈 Analyst</div>
+                    <div style="font-size: 13px; color: var(--kiq-text-muted);">Read-only analytics</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 60px;"></div>
+    </main>
+</div>
+
+<!-- Add Member Modal -->
+<div id="addModal" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.5); z-index: 9999; align-items: center; justify-content: center;">
+    <div class="kiq-card" style="width: 460px; max-width: 90vw;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3 style="font-size: 18px; font-weight: 600;">Add Team Member</h3>
+            <button id="closeModal" style="background: none; border: none; font-size: 20px; cursor: pointer; color: var(--kiq-text-muted);">&times;</button>
+        </div>
+        <form id="addForm">
+            <div class="kiq-input-group">
+                <label class="kiq-label">Full Name</label>
+                <input type="text" class="kiq-input" name="full_name" placeholder="Rohit Sharma" required>
+            </div>
+            <div class="kiq-input-group">
+                <label class="kiq-label">Email</label>
+                <input type="email" class="kiq-input" name="email" placeholder="rohit@example.com" required>
+            </div>
+            <div class="kiq-input-group">
+                <label class="kiq-label">Password (they can change later)</label>
+                <input type="password" class="kiq-input" name="password" minlength="6" placeholder="min 6 chars" required>
+            </div>
+            <div class="kiq-input-group">
+                <label class="kiq-label">Role</label>
+                <select class="kiq-input" name="role" required>
+                    <option value="manager">📊 Manager</option>
+                    <option value="staff" selected>👨‍🍳 Staff</option>
+                    <option value="analyst">📈 Analyst</option>
+                </select>
+            </div>
+            <button type="submit" class="kiq-btn kiq-btn-primary kiq-btn-block">
+                <i class="fa-solid fa-user-plus"></i> Add to Team
+            </button>
+        </form>
+    </div>
+</div>
+
+<script src="../js/config.js"></script>
+<script src="../js/team.js"></script>
+<script src="../js/notifications-bell.js"></script>
+    <script src="../js/search.js"></script>
+    <script src="../js/kitchen-switcher.js"></script>
+</body>
+</html>

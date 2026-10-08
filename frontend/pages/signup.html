@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account — KitchenIQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/tokens.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    <!-- Theme (must be before paint to avoid flash) -->
+    <script src="../js/theme.js"></script>
+</head>
+<body>
+<div class="kiq-auth">
+    <div class="kiq-auth-brand">
+        <a href="#" class="kiq-auth-logo">
+            <div class="kiq-auth-logo-icon"><i class="fa-solid fa-utensils"></i></div>
+            <div class="kiq-auth-logo-text">KitchenIQ <span>Pro</span></div>
+        </a>
+        <div class="kiq-auth-hero">
+            <h1>Start your free<br><span>14-day trial.</span></h1>
+            <p>No credit card required. Full access to analytics, AI insights, and integrations.</p>
+        </div>
+    </div>
+
+    <div class="kiq-auth-form-wrap">
+        <div class="kiq-auth-form">
+            <div class="kiq-auth-tabs">
+                <a href="login.html" class="kiq-auth-tab">Login</a>
+                <a href="#" class="kiq-auth-tab active">Register</a>
+            </div>
+
+            <div class="kiq-auth-header">
+                <h2>Create your account</h2>
+                <p>Start your free trial. No credit card required.</p>
+            </div>
+
+            <div class="kiq-auth-error kiq-alert kiq-alert-danger" id="authError">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span class="err-text"></span>
+            </div>
+
+            <form id="signupForm" novalidate>
+                <div class="kiq-input-group">
+                    <label class="kiq-label">Full Name</label>
+                    <input type="text" class="kiq-input" name="full_name" placeholder="Your full name" required>
+                </div>
+                <div class="kiq-input-group">
+                    <label class="kiq-label">Email Address</label>
+                    <input type="email" class="kiq-input" name="email" placeholder="you@example.com" required>
+                </div>
+                <div class="kiq-input-group">
+                    <label class="kiq-label">Password</label>
+                    <input type="password" class="kiq-input" name="password" placeholder="At least 6 characters" required>
+                </div>
+                <div class="kiq-input-group">
+                    <label class="kiq-label">Confirm Password</label>
+                    <input type="password" class="kiq-input" name="confirm" placeholder="Re-enter password" required>
+                </div>
+                <button type="submit" class="kiq-btn kiq-btn-primary kiq-btn-lg kiq-btn-block">
+                    <i class="fa-solid fa-user-plus"></i> Create Account
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="../js/config.js"></script>
+<script src="../js/auth.js"></script>
+</body>
+</html>

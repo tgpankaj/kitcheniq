@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live Orders — KitchenIQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="../js/theme.js"></script>
+    <link rel="stylesheet" href="../css/tokens.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/layout.css">
+</head>
+<body>
+
+<div class="kiq-app">
+
+    <aside class="kiq-sidebar">
+        <a href="dashboard.html" class="kiq-sidebar-logo">
+            <div class="kiq-sidebar-logo-icon"><i class="fa-solid fa-utensils"></i></div>
+            <div class="kiq-sidebar-logo-text">KitchenIQ <span>Pro</span></div>
+        </a>
+        <nav class="kiq-sidebar-nav">
+            <div class="kiq-nav-section">Main</div>
+            <a href="dashboard.html" class="kiq-nav-link"><i class="fa-solid fa-chart-pie"></i><span>Dashboard</span></a>
+            <a href="live.html" class="kiq-nav-link active"><i class="fa-solid fa-bolt"></i><span>Live Orders</span></a>
+            <a href="analytics.html" class="kiq-nav-link"><i class="fa-solid fa-chart-line"></i><span>Analytics</span></a>
+            <a href="dishes.html" class="kiq-nav-link"><i class="fa-solid fa-burger"></i><span>Dishes</span></a>
+            <a href="customers.html" class="kiq-nav-link"><i class="fa-solid fa-users"></i><span>Customers</span></a>
+            <a href="finance.html" class="kiq-nav-link"><i class="fa-solid fa-indian-rupee-sign"></i><span>Finance</span></a>
+            <a href="foodcost.html" class="kiq-nav-link"><i class="fa-solid fa-calculator"></i><span>Food Cost</span></a>
+            <a href="insights.html" class="kiq-nav-link"><i class="fa-solid fa-lightbulb"></i><span>AI Insights</span><span class="kiq-nav-badge">AI</span></a>
+            <a href="notifications.html" class="kiq-nav-link"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
+            <a href="reports.html" class="kiq-nav-link"><i class="fa-solid fa-file-lines"></i><span>Reports</span></a>
+            <div class="kiq-nav-section">Data</div>
+            <a href="integrations.html" class="kiq-nav-link"><i class="fa-solid fa-plug"></i><span>Integrations</span></a>
+            <a href="upload.html" class="kiq-nav-link"><i class="fa-solid fa-cloud-arrow-up"></i><span>Upload CSV</span></a>
+            <div class="kiq-nav-section">System</div>
+            <a href="kitchens.html" class="kiq-nav-link"><i class="fa-solid fa-store"></i><span>Kitchens</span></a>
+            <a href="team.html" class="kiq-nav-link"><i class="fa-solid fa-user-group"></i><span>Team</span></a>
+            <a href="activity.html" class="kiq-nav-link"><i class="fa-solid fa-clock-rotate-left"></i><span>Activity</span></a>
+            <a href="plans.html" class="kiq-nav-link"><i class="fa-solid fa-crown"></i><span>Plans & Billing</span></a>
+
+            <a href="settings.html" class="kiq-nav-link"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+        </nav>
+        <div class="kiq-sidebar-footer">
+            <a href="#" id="logoutBtn" class="kiq-nav-link"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></a>
+        </div>
+    </aside>
+
+    <header class="kiq-topbar">
+        <div class="kiq-topbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search orders..." disabled>
+        </div>
+        <div class="kiq-topbar-actions">
+            <div id="kiq-bell-container"></div>
+            <div class="kiq-topbar-user">
+                <div class="kiq-topbar-user-info">
+                    <div class="kiq-topbar-user-name" id="userName">—</div>
+                    <div class="kiq-topbar-user-role">Owner</div>
+                </div>
+                <div class="kiq-avatar" id="userAvatar">?</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="kiq-content">
+
+        <div class="kiq-page-header">
+            <div>
+                <h1 class="kiq-page-title">Live Orders</h1>
+                <p class="kiq-page-subtitle">
+                    <span style="display: inline-flex; align-items: center; gap: 6px;">
+                        <span style="position: relative; display: inline-flex; width: 8px; height: 8px;">
+                            <span style="position: absolute; width: 100%; height: 100%; background: #10b981; border-radius: 50%; animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;"></span>
+                            <span style="position: relative; width: 100%; height: 100%; background: #10b981; border-radius: 50%;"></span>
+                        </span>
+                        Live · Auto-refresh every 15s
+                    </span>
+                </p>
+            </div>
+            <div class="kiq-page-actions">
+                <button class="kiq-btn kiq-btn-secondary" onclick="loadAll()">
+                    <i class="fa-solid fa-rotate"></i> Refresh
+                </button>
+            </div>
+        </div>
+
+        <!-- Status Board -->
+        <div class="kiq-grid kiq-grid-auto-4 kiq-mb-6">
+            <div class="kiq-kpi" style="border-left: 3px solid #f59e0b; cursor: pointer;" onclick="filterByStatus('preparing')">
+                <div class="kiq-kpi-header">
+                    <div class="kiq-kpi-label">🍳 Preparing</div>
+                    <div class="kiq-kpi-icon warning"><i class="fa-solid fa-fire"></i></div>
+                </div>
+                <div class="kiq-kpi-value" id="kpiPreparing">0</div>
+                <span class="kiq-kpi-trend flat">In kitchen</span>
+            </div>
+            <div class="kiq-kpi" style="border-left: 3px solid #3b82f6; cursor: pointer;" onclick="filterByStatus('ready')">
+                <div class="kiq-kpi-header">
+                    <div class="kiq-kpi-label">✅ Ready</div>
+                    <div class="kiq-kpi-icon brand"><i class="fa-solid fa-bell-concierge"></i></div>
+                </div>
+                <div class="kiq-kpi-value" id="kpiReady">0</div>
+                <span class="kiq-kpi-trend flat">Waiting for pickup</span>
+            </div>
+            <div class="kiq-kpi" style="border-left: 3px solid #10b981; cursor: pointer;" onclick="filterByStatus('delivered')">
+                <div class="kiq-kpi-header">
+                    <div class="kiq-kpi-label">🚀 Delivered</div>
+                    <div class="kiq-kpi-icon success"><i class="fa-solid fa-truck-fast"></i></div>
+                </div>
+                <div class="kiq-kpi-value" id="kpiDelivered">0</div>
+                <span class="kiq-kpi-trend flat">Completed</span>
+            </div>
+            <div class="kiq-kpi" style="border-left: 3px solid #ef4444; cursor: pointer;" onclick="filterByStatus('cancelled')">
+                <div class="kiq-kpi-header">
+                    <div class="kiq-kpi-label">❌ Cancelled</div>
+                    <div class="kiq-kpi-icon danger"><i class="fa-solid fa-xmark"></i></div>
+                </div>
+                <div class="kiq-kpi-value" id="kpiCancelled">0</div>
+                <span class="kiq-kpi-trend flat">Today</span>
+            </div>
+        </div>
+
+        <!-- Performance -->
+        <div class="kiq-grid kiq-grid-auto-4 kiq-mb-6">
+            <div class="kiq-card">
+                <div style="font-size: 11px; color: var(--kiq-text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Avg Prep Time</div>
+                <div style="font-size: 24px; font-weight: 700; margin-top: 6px;" id="perfPrep">—</div>
+                <div style="font-size: 12px; color: var(--kiq-text-muted);">minutes</div>
+            </div>
+            <div class="kiq-card">
+                <div style="font-size: 11px; color: var(--kiq-text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Avg Delivery</div>
+                <div style="font-size: 24px; font-weight: 700; margin-top: 6px;" id="perfDelivery">—</div>
+                <div style="font-size: 12px; color: var(--kiq-text-muted);">minutes</div>
+            </div>
+            <div class="kiq-card">
+                <div style="font-size: 11px; color: var(--kiq-text-muted); text-transform: uppercase; letter-spacing: 0.05em;">On-Time Rate</div>
+                <div style="font-size: 24px; font-weight: 700; margin-top: 6px;" id="perfOnTime">—</div>
+                <div style="font-size: 12px; color: var(--kiq-text-muted);">of completed orders</div>
+            </div>
+            <div class="kiq-card">
+                <div style="font-size: 11px; color: var(--kiq-text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Last Hour</div>
+                <div style="font-size: 24px; font-weight: 700; margin-top: 6px;" id="perfLastHour">—</div>
+                <div style="font-size: 12px; color: var(--kiq-text-muted);">new orders</div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="kiq-card kiq-mb-4">
+            <div style="display: flex; gap: 12px; align-items: end; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 200px;">
+                    <label class="kiq-label">Status Filter</label>
+                    <select id="statusFilter" class="kiq-input">
+                        <option value="">All statuses</option>
+                        <option value="preparing">Preparing</option>
+                        <option value="ready">Ready</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div style="font-size: 13px; color: var(--kiq-text-muted); padding-bottom: 10px;" id="orderCount">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Orders Grid -->
+        <div id="ordersGrid">
+            <p style="text-align:center; padding: 40px; color: var(--kiq-text-muted);">
+                <i class="fa-solid fa-circle-notch fa-spin"></i> Loading live orders...
+            </p>
+        </div>
+
+        <div style="height: 60px;"></div>
+    </main>
+</div>
+
+<style>
+    @keyframes ping {
+        75%, 100% { transform: scale(2); opacity: 0; }
+    }
+
+    .order-card {
+        background: var(--kiq-bg-elevated);
+        border: 1px solid var(--kiq-border);
+        border-radius: 12px;
+        padding: 16px;
+        transition: all 0.15s;
+        position: relative;
+        overflow: hidden;
+    }
+    .order-card:hover {
+        box-shadow: var(--kiq-shadow-md);
+        transform: translateY(-2px);
+    }
+    .order-card.preparing { border-left: 4px solid #f59e0b; }
+    .order-card.ready { border-left: 4px solid #3b82f6; }
+    .order-card.delivered { border-left: 4px solid #10b981; opacity: 0.7; }
+    .order-card.cancelled { border-left: 4px solid #ef4444; opacity: 0.6; }
+    .order-card.pending { border-left: 4px solid #94a3b8; }
+
+    .order-time-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 4px;
+        background: var(--kiq-bg-sunken);
+        color: var(--kiq-text-muted);
+    }
+    .order-time-badge.urgent { background: #fee2e2; color: #b91c1c; }
+</style>
+
+<script src="../js/config.js"></script>
+<script src="../js/live.js"></script>
+<script src="../js/notifications-bell.js"></script>
+<script src="../js/kitchen-switcher.js"></script>
+</body>
+</html>

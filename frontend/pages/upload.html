@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload CSV — KitchenIQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/tokens.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <style>
+        body { padding: 40px 24px; max-width: 900px; margin: 0 auto; }
+        .drop-zone {
+            border: 2px dashed var(--kiq-border-strong);
+            border-radius: var(--kiq-radius-lg);
+            padding: 60px 24px;
+            text-align: center;
+            background: var(--kiq-bg-elevated);
+            transition: all 0.15s;
+            cursor: pointer;
+        }
+        .drop-zone:hover, .drop-zone.drag {
+            border-color: var(--kiq-brand-500);
+            background: var(--kiq-brand-50);
+        }
+        .drop-zone i { font-size: 48px; color: var(--kiq-brand-500); margin-bottom: 16px; }
+        .drop-zone h3 { margin-bottom: 8px; }
+        .drop-zone p { color: var(--kiq-text-muted); font-size: 14px; }
+        .drop-zone input { display: none; }
+    </style>
+</head>
+<body>
+
+<a href="dashboard.html" style="display: inline-flex; align-items: center; gap: 8px; margin-bottom: 24px; color: var(--kiq-text-muted);">
+    <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+</a>
+
+
+<a href="live.html" class="kiq-nav-link"><i class="fa-solid fa-bolt"></i><span>Live Orders</span></a>
+
+<h1 style="margin-bottom: 8px;">Upload Orders CSV</h1>
+<p style="color: var(--kiq-text-muted); margin-bottom: 32px;">Import your Swiggy / Zomato / manual orders to see analytics.</p>
+
+<div id="alertBox"></div>
+
+<div class="drop-zone" id="dropZone">
+    <input type="file" id="fileInput" accept=".csv">
+    <i class="fa-solid fa-cloud-arrow-up"></i>
+    <h3>Drop your CSV here</h3>
+    <p>or click to browse. Max 10 MB.</p>
+</div>
+
+<div id="fileInfo" style="display: none; margin-top: 24px; padding: 16px; background: var(--kiq-bg-elevated); border: 1px solid var(--kiq-border); border-radius: 8px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <strong id="fileName">file.csv</strong>
+            <div style="font-size: 12px; color: var(--kiq-text-muted);" id="fileSize"></div>
+        </div>
+        <button class="kiq-btn kiq-btn-primary" id="uploadBtn">
+            <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+        </button>
+    </div>
+</div>
+
+<div style="margin-top: 32px; padding: 20px; background: var(--kiq-bg-sunken); border-radius: 8px;">
+    <h4 style="margin-bottom: 12px; font-size: 14px;">Required CSV columns</h4>
+    <p style="font-size: 13px; color: var(--kiq-text-muted); line-height: 1.7;">
+        <code>order_date</code>, <code>item_name</code>, <code>unit_price</code><br>
+        <strong>Optional:</strong> order_id, order_time, platform, customer_phone, customer_name, quantity, discount, platform_fee, food_cost, status
+    </p>
+    <a href="../sample-orders.csv" download style="display: inline-block; margin-top: 12px; font-size: 13px;">
+        <i class="fa-solid fa-download"></i> Download sample CSV
+    </a>
+</div>
+
+<script src="../js/config.js"></script>
+<script src="../js/upload.js"></script>
+</body>
+</html>

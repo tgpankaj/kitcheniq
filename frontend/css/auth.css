@@ -1,0 +1,146 @@
+/* KitchenIQ — Auth Pages */
+.kiq-auth {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+}
+
+/* Left: Branding */
+.kiq-auth-brand {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+    color: white;
+    padding: var(--kiq-space-10);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+.kiq-auth-brand::before {
+    content: '';
+    position: absolute; top: -100px; right: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent 70%);
+    border-radius: 50%;
+}
+
+.kiq-auth-logo {
+    display: flex; align-items: center; gap: var(--kiq-space-3);
+    color: white; text-decoration: none;
+    position: relative; z-index: 1;
+    margin-bottom: auto;
+}
+
+.kiq-auth-logo-icon {
+    width: 44px; height: 44px;
+    background: var(--kiq-brand-500);
+    border-radius: var(--kiq-radius-lg);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+}
+
+.kiq-auth-logo-text {
+    font-size: var(--kiq-text-2xl);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+.kiq-auth-logo-text span { color: var(--kiq-brand-500); }
+
+.kiq-auth-hero {
+    position: relative; z-index: 1;
+    max-width: 480px;
+    margin: auto 0;
+}
+
+.kiq-auth-hero h1 {
+    font-size: 40px;
+    line-height: 1.15;
+    font-weight: 700;
+    margin-bottom: var(--kiq-space-5);
+    color: white;
+}
+
+.kiq-auth-hero h1 span { color: var(--kiq-brand-500); }
+
+.kiq-auth-hero p {
+    font-size: var(--kiq-text-lg);
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: var(--kiq-space-8);
+    line-height: 1.7;
+}
+
+.kiq-auth-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--kiq-space-4);
+}
+
+.kiq-auth-feature { display: flex; align-items: flex-start; gap: var(--kiq-space-3); }
+
+.kiq-auth-feature-icon {
+    width: 36px; height: 36px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--kiq-radius-md);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    color: var(--kiq-brand-500);
+    font-size: 16px;
+}
+
+.kiq-auth-feature-title { font-weight: 600; font-size: var(--kiq-text-sm); }
+.kiq-auth-feature-sub { color: rgba(255,255,255,0.6); font-size: var(--kiq-text-xs); }
+
+/* Right: Form */
+.kiq-auth-form-wrap {
+    display: flex; align-items: center; justify-content: center;
+    padding: var(--kiq-space-10) var(--kiq-space-6);
+    background: var(--kiq-bg);
+    overflow-y: auto;
+}
+
+.kiq-auth-form { width: 100%; max-width: 420px; }
+
+.kiq-auth-tabs {
+    display: flex; gap: 4px;
+    background: var(--kiq-bg-sunken);
+    padding: 4px;
+    border-radius: var(--kiq-radius-md);
+    margin-bottom: var(--kiq-space-6);
+}
+
+.kiq-auth-tab {
+    flex: 1; text-align: center;
+    padding: var(--kiq-space-2) var(--kiq-space-3);
+    font-size: var(--kiq-text-sm); font-weight: 500;
+    border-radius: var(--kiq-radius-sm);
+    color: var(--kiq-text-muted);
+    text-decoration: none;
+    transition: all 0.15s;
+}
+
+.kiq-auth-tab.active {
+    background: var(--kiq-bg-elevated);
+    color: var(--kiq-text);
+    box-shadow: var(--kiq-shadow-sm);
+}
+
+.kiq-auth-header { margin-bottom: var(--kiq-space-8); }
+.kiq-auth-header h2 {
+    font-size: var(--kiq-text-3xl);
+    font-weight: 700;
+    margin-bottom: var(--kiq-space-2);
+}
+.kiq-auth-header p { color: var(--kiq-text-muted); }
+
+.kiq-auth-error {
+    display: none;
+    margin-bottom: var(--kiq-space-4);
+}
+.kiq-auth-error.show { display: flex; }
+
+/* Responsive */
+@media (max-width: 900px) {
+    .kiq-auth { grid-template-columns: 1fr; }
+    .kiq-auth-brand { display: none; }
+    .kiq-auth-form-wrap { padding: var(--kiq-space-6); }
+}

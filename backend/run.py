@@ -9,16 +9,18 @@ import logging
 
 load_dotenv()
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-)
+# Structured logging
+from app.utils.logging_config import setup_logging, request_logger
 
 
 def create_app():
     app = Flask(__name__)
     app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "dev-secret-key")
     app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024
+
+    # Logging
+    setup_logging(app)
+    request_logger(app)
 
     # CORS
     CORS(app, resources={r"/*": {"origins": "*"}})
@@ -29,14 +31,14 @@ def create_app():
             resp = make_response()
             resp.headers["Access-Control-Allow-Origin"] = "*"
             resp.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
-            resp.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+            resp.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Kitchen-Id"
             resp.headers["Access-Control-Max-Age"] = "3600"
             return resp
 
     @app.after_request
     def add_cors_headers(response):
         response.headers["Access-Control-Allow-Origin"] = "*"
-        response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Kitchen-Id"
         response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
         return response
 
@@ -67,6 +69,8 @@ def create_app():
     from app.routes.oauth import oauth_bp
     from app.routes.payments import payments_bp
     from app.routes.emails import emails_bp
+    from app.routes.monitoring import monitoring_bp
+    from app.routes.forecast import forecast_bp
 
     app.register_blueprint(auth_bp,          url_prefix="/api/auth")
     app.register_blueprint(upload_bp,        url_prefix="/api/upload")
@@ -92,6 +96,8 @@ def create_app():
     app.register_blueprint(oauth_bp,         url_prefix="/api/oauth")
     app.register_blueprint(payments_bp,      url_prefix="/api/payments")
     app.register_blueprint(emails_bp,        url_prefix="/api/emails")
+    app.register_blueprint(monitoring_bp,    url_prefix="/api/monitoring")
+    app.register_blueprint(forecast_bp,      url_prefix="/api/forecast")
 
     # ========================================================
     # Direct routes
@@ -132,7 +138,33 @@ def create_app():
         except Exception as _e:
             app.logger.error(f"Failed to start scheduler: {_e}")
 
+# Sentry (optional — only if DSN is set)
+    _init_sentry(app)
+
     return app
+
+
+def _init_sentry(app):
+    """Initialize Sentry for error tracking (no-op if DSN empty)."""
+    dsn = os.getenv("SENTRY_DSN", "").strip()
+    if not dsn:
+        return
+
+    try:
+        import sentry_sdk
+        from sentry_sdk.integrations.flask import FlaskIntegration
+
+        sentry_sdk.init(
+            dsn=dsn,
+            integrations=[FlaskIntegration()],
+            traces_sample_rate=0.1,
+            environment=os.getenv("FLASK_ENV", "production"),
+            release=os.getenv("APP_VERSION", "0.3.0"),
+        )
+        app.logger.info("✅ Sentry initialized")
+    except Exception as e:
+        app.logger.warning(f"Sentry init failed: {e}")
+
 
 
 app = create_app()
