@@ -1,34 +1,13 @@
-// ==========================================
-// KitchenIQ — API Configuration
-// Auto-detects environment
-// ==========================================
-
+// KitchenIQ — API Config (Production + Local)
 (function () {
     var host = window.location.hostname;
-    var isLocal = (host === "localhost" || host === "127.0.0.1" || host === "10.93.175.3");
 
-    if (isLocal) {
-        // Local development
-        window.API_URL = "http://127.0.0.1:5050";
-    } else {
-        // Production — CHANGE THIS to your Render URL
-        window.API_URL = "https://kitcheniq-api-xxxx.onrender.com";
+    // Local dev
+    if (host === 'localhost' || host === '127.0.0.1') {
+        window.API_URL = 'http://127.0.0.1:5050';
+        return;
     }
-})();
 
-// ============================================================
-// Auto-attach X-Kitchen-Id header to all API calls
-// ============================================================
-(function() {
-    const originalFetch = window.fetch;
-    window.fetch = function(url, options = {}) {
-        if (typeof url === "string" && window.API_URL && url.includes(window.API_URL)) {
-            const kitchen = JSON.parse(localStorage.getItem("kitchen") || "{}");
-            options.headers = options.headers || {};
-            if (kitchen.id) {
-                options.headers["X-Kitchen-Id"] = String(kitchen.id);
-            }
-        }
-        return originalFetch.apply(this, arguments);
-    };
+    // Production (Render)
+    window.API_URL = 'https://kitcheniq-api-tos5.onrender.com';
 })();
