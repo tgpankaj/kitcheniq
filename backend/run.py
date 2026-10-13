@@ -69,7 +69,6 @@ def create_app():
     from app.routes.oauth import oauth_bp
     from app.routes.payments import payments_bp
     from app.routes.emails import emails_bp
-    from app.routes.monitoring import monitoring_bp
     from app.routes.forecast import forecast_bp
 
     app.register_blueprint(auth_bp,          url_prefix="/api/auth")
@@ -96,7 +95,6 @@ def create_app():
     app.register_blueprint(oauth_bp,         url_prefix="/api/oauth")
     app.register_blueprint(payments_bp,      url_prefix="/api/payments")
     app.register_blueprint(emails_bp,        url_prefix="/api/emails")
-    app.register_blueprint(monitoring_bp,    url_prefix="/api/monitoring")
     app.register_blueprint(forecast_bp,      url_prefix="/api/forecast")
 
     # ========================================================
