@@ -19,3 +19,35 @@ build/
 
 kitcheniq/
 .coverage
+
+# Temp scripts
+fix_*.py
+create_*.py
+check_*.py
+db_state.py
+test_nl.py
+load_test.py
+update_*.py
+refactor_*.py
+rewrite_*.py
+final_*.py
+
+# Temp files
+chat-export.md
+test-chat.md
+
+# Backups
+backups/
+
+# AI/private
+*.env
+.env.production
+.env.staging
+
+# Old tests
+backend/tests/_old/
+
+# PyTest cache
+.pytest_cache/
+htmlcov/
+.coverage
